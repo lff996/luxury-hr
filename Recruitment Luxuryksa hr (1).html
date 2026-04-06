@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام الموارد البشرية — Luxury KSA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0efeb;
+  --border:rgba(0,0,0,.09);--border2:rgba(0,0,0,.18);
+  --text:#1c1b18;--text2:#6b6a65;--text3:#9c9b96;
+  --blue:#1a56db;--blue-bg:#eff4ff;--blue-t:#1e429f;
+  --green:#057a55;--green-bg:#def7ec;--green-t:#03543f;
+  --orange:#b45309;--orange-bg:#fffbeb;--orange-t:#92400e;
+  --red:#c81e1e;--red-bg:#fdf2f2;--red-t:#9b1c1c;
+  --purple:#6c2bd9;--purple-bg:#f5f3ff;--purple-t:#4a1d96;
+  --r:8px;--r2:12px;--font:'IBM Plex Sans Arabic',sans-serif
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;height:100vh;overflow:hidden}
+.app{display:flex;height:100vh}
+.sidebar{width:220px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.screen{display:none;flex:1;flex-direction:column;overflow:hidden}
+.screen.on{display:flex}
+/* sidebar */
+.logo-box{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.logo-name{font-size:13px;font-weight:700}
+.logo-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.ai-badge{display:inline-flex;align-items:center;gap:4px;margin-top:7px;background:var(--blue-bg);color:var(--blue-t);font-size:9px;font-weight:600;padding:3px 8px;border-radius:20px}
+.pulse{width:5px;height:5px;border-radius:50%;background:currentColor;animation:p 1.8s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
+.nav{padding:12px 8px;flex:1;overflow-y:auto}
+.nav-lbl{font-size:9px;font-weight:600;color:var(--text3);padding:10px 8px 4px;letter-spacing:.06em;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r);cursor:pointer;font-size:12px;color:var(--text2);margin-bottom:1px;transition:all .14s;user-select:none}
+.ni:hover{background:var(--surface2);color:var(--text)}
+.ni.on{background:var(--blue-bg);color:var(--blue-t);font-weight:600}
+.ni svg{flex-shrink:0;opacity:.65}.ni.on svg{opacity:1}
+.ni-badge{margin-right:auto;background:var(--red-bg);color:var(--red-t);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px}
+.ni-badge.green{background:var(--green-bg);color:var(--green-t)}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border)}
+.user-row{display:flex;align-items:center;gap:9px}
+.user-av{width:32px;height:32px;border-radius:50%;background:var(--orange-bg);color:var(--orange-t);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.user-name{font-size:12px;font-weight:600}.user-role{font-size:10px;color:var(--text3)}
+/* topbar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;height:54px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:700;flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-family:var(--font);transition:all .14s;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.primary:hover{opacity:.9}
+.btn.green-btn{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.green-btn:hover{opacity:.9}
+.btn.danger-btn{background:var(--red-bg);color:var(--red-t);border-color:transparent}
+.btn.danger-btn:hover{background:#f7c1c1}
+/* content */
+.content{flex:1;overflow-y:auto;padding:22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:16px}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:700}
+.card-link{font-size:12px;color:var(--blue);cursor:pointer;font-weight:500}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:16px}
+.m-lbl{font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500}
+.m-val{font-size:28px;font-weight:700}
+.m-change{font-size:11px;margin-top:4px}.up{color:var(--green)}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px}
+.b-gray{background:var(--surface2);color:var(--text2)}
+.b-teal{background:#ecfeff;color:#0e7490}
+.b-blue{background:var(--blue-bg);color:var(--blue-t)}
+.b-orange{background:var(--orange-bg);color:var(--orange-t)}
+.b-green{background:var(--green-bg);color:var(--green-t)}
+.b-purple{background:var(--purple-bg);color:var(--purple-t)}
+/* pipeline */
+.pipe-bar{background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;flex-shrink:0}
+.ps{display:flex;flex-direction:column;align-items:center;padding:12px 20px;min-width:105px;border-bottom:2px solid transparent}
+.ps.on{border-bottom-color:var(--blue)}
+.ps-lbl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:500}
+.ps.on .ps-lbl{color:var(--blue-t);font-weight:600}
+.ps-num{font-size:22px;font-weight:700}.ps.on .ps-num{color:var(--blue)}
+.ps-sub{font-size:9px;color:var(--text3);margin-top:1px}
+/* filters */
+.filters{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0}
+.search{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:7px 12px;flex:1;min-width:200px;max-width:280px}
+.search input{background:none;border:none;outline:none;font-size:12px;color:var(--text);font-family:var(--font);flex:1}
+.chip{padding:5px 13px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--text2);background:transparent;transition:all .14s;white-space:nowrap}
+.chip.on{background:var(--blue-bg);color:var(--blue-t);border-color:rgba(26,86,219,.2)}
+/* kanban */
+.kanban-wrap{flex:1;display:flex;overflow:hidden}
+.kanban{flex:1;overflow-x:auto;display:flex;gap:14px;padding:16px 20px}
+.col{flex-shrink:0;width:240px;display:flex;flex-direction:column}
+.col-hdr{display:flex;align-items:center;justify-content:space-between;padding:0 2px 10px}
+.col-title{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.col-cnt{font-size:11px;color:var(--text3);background:var(--surface2);padding:2px 8px;border-radius:10px;font-weight:600}
+.col-cards{display:flex;flex-direction:column;gap:8px;overflow-y:auto;padding-bottom:4px}
+.ccard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:13px;cursor:pointer;transition:all .15s}
+.ccard:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.07);transform:translateY(-1px)}
+.ccard.sel{border-color:rgba(26,86,219,.4);background:var(--blue-bg)}
+.cc-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.cc-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.cc-name{font-size:12px;font-weight:700}.cc-role{font-size:10px;color:var(--text2);margin-top:1px}
+.score-row{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.sbar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.sfill{height:100%;border-radius:2px}
+.snum{font-size:11px;font-weight:700;min-width:32px}
+.cc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:9px;font-weight:500;padding:2px 7px;border-radius:10px;background:var(--surface2);color:var(--text2)}
+.cc-foot{display:flex;align-items:center;justify-content:space-between}
+.cc-time{font-size:10px;color:var(--text3)}
+.ai-mini{display:flex;align-items:center;gap:3px;font-size:9px;font-weight:600;background:var(--blue-bg);color:var(--blue-t);padding:2px 7px;border-radius:10px}
+/* detail */
+.detail{width:320px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.detail-hdr{padding:14px 16px;border-bottom:1px solid var(--border)}
+.d-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.d-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.d-name{font-size:14px;font-weight:700}.d-role{font-size:11px;color:var(--text2);margin-top:2px}
+.score-big{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:var(--r);margin-bottom:10px}
+.sb-num{font-size:32px;font-weight:700}.sb-right{flex:1}
+.sb-lbl{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:600}
+.sb-grade{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block}
+/* tabs */
+.d-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.d-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .14s}
+.d-tab:hover{color:var(--text)}
+.d-tab.on{color:var(--blue-t);border-bottom-color:var(--blue)}
+.d-body{flex:1;overflow-y:auto;padding:14px 16px}
+.d-section{margin-bottom:16px}
+.d-sec-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px}
+.breakdown-box{background:var(--blue-bg);border:1px solid rgba(26,86,219,.12);border-radius:var(--r);padding:10px 12px;margin-bottom:10px;font-size:11px;color:var(--blue-t);line-height:1.8}
+.breakdown-box strong{font-weight:700}
+.crit-row{margin-bottom:9px;padding:10px;background:var(--surface2);border-radius:var(--r)}
+.cr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.cr-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.cr-fill{height:100%;border-radius:3px}
+.cr-why{font-size:10px;color:var(--text3)}
+.ai-note{background:var(--blue-bg);border:1px solid rgba(26,86,219,.12);border-radius:var(--r);padding:10px 12px;font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.ai-note strong{color:var(--blue-t);font-weight:700}
+.tl-item{display:flex;gap:10px;margin-bottom:10px}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-title{font-size:11px;font-weight:600}.tl-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--text3);font-size:13px;gap:8px;text-align:center;padding:20px}
+/* TEST */
+.spinner{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.q-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:10px}
+.q-num{font-size:10px;font-weight:700;color:var(--blue-t);margin-bottom:6px}
+.q-text{font-size:13px;font-weight:600;margin-bottom:10px;line-height:1.6;color:var(--text)}
+.q-options{display:flex;flex-direction:column;gap:6px}
+.q-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;font-size:12px;transition:all .14s;user-select:none}
+.q-opt:hover{background:var(--blue-bg);border-color:rgba(26,86,219,.25)}
+.q-opt.chosen{background:var(--blue-bg);border-color:var(--blue);color:var(--blue-t);font-weight:600}
+.q-opt.correct{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green-t)!important;font-weight:700;pointer-events:none}
+.q-opt.wrong{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red-t)!important;pointer-events:none}
+.q-opt.disabled{pointer-events:none;opacity:.7}
+.opt-circle{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700}
+/* EXAM LINK SEND */
+.exam-link-box{background:var(--blue-bg);border:1px solid rgba(26,86,219,.15);border-radius:var(--r2);padding:16px;margin-bottom:12px}
+.exam-link-sent{background:var(--green-bg);border:1px solid rgba(5,122,85,.18);border-radius:var(--r2);padding:12px;margin-bottom:10px;font-size:12px;color:var(--green-t);font-weight:600;display:flex;align-items:center;gap:8px}
+.exam-result-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:10px}
+/* EMAIL */
+.email-section{border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:12px}
+.email-section-title{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.email-preview{background:var(--surface2);border-radius:var(--r);padding:12px;font-size:11px;color:var(--text2);line-height:1.85;margin-bottom:10px;border:1px solid var(--border);max-height:160px;overflow-y:auto;white-space:pre-wrap;direction:rtl}
+.gmail-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:var(--r);font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .14s;text-decoration:none}
+.gmail-btn:hover{opacity:.88}
+/* interview picker */
+.interview-picker{background:var(--surface2);border-radius:var(--r2);padding:14px;margin-bottom:14px;border:1px solid var(--border)}
+.ip-title{font-size:12px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.ip-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ip-field label{display:block;font-size:11px;font-weight:600;color:var(--text3);margin-bottom:4px}
+.ip-field input,.ip-field select{width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--r);font-size:12px;font-family:var(--font);color:var(--text);background:var(--surface);outline:none}
+.ip-field input:focus,.ip-field select:focus{border-color:var(--blue)}
+/* modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--r2);padding:28px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18);animation:si .2s ease}
+@keyframes si{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.modal-close{cursor:pointer;color:var(--text3);font-size:22px;background:none;border:none;font-family:var(--font)}
+.form-row{margin-bottom:14px}
+.form-row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.hint{font-size:10px;color:var(--text3);margin-top:3px}
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:var(--font);color:var(--text);background:var(--surface);outline:none;transition:border-color .14s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08)}
+textarea{resize:vertical;min-height:70px}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.preview-box{background:var(--surface2);border-radius:var(--r);padding:14px;margin-top:16px}
+.pv-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:11px}
+.pv-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.pv-fill{height:100%;border-radius:2px;transition:width .3s}
+.pv-total{border-top:1px solid var(--border);padding-top:8px;margin-top:4px;font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.d-table{width:100%;border-collapse:collapse}
+.d-table th{font-size:11px;font-weight:700;color:var(--text3);padding:0 0 10px;text-align:right;border-bottom:1px solid var(--border)}
+.d-table td{padding:11px 0;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.d-table tr:last-child td{border-bottom:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.detail{display:none}}
+
+/* ══ EXAM SCREEN STYLES ══ */
+.ex-wrap{max-width:680px;margin:0 auto}
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:12px}
+.ex-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.ex-info-item{background:var(--surface2);border-radius:var(--r);padding:10px 8px;text-align:center}
+.ex-info-val{font-size:20px;font-weight:700;color:var(--text)}
+.ex-info-lbl{font-size:11px;color:var(--text3);margin-top:2px}
+.ex-avatar{width:40px;height:40px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--blue-t);flex-shrink:0}
+.ex-badge-pass{background:var(--green-bg);color:var(--green-t)}
+.ex-badge-mid{background:var(--orange-bg);color:var(--orange-t)}
+.ex-badge-fail{background:var(--red-bg);color:var(--red-t)}
+.ex-prog-wrap{background:var(--surface2);border-radius:4px;height:5px;margin-bottom:10px;overflow:hidden}
+.ex-prog-fill{height:100%;background:var(--blue);border-radius:4px;transition:width .3s}
+.ex-opts{display:flex;flex-direction:column;gap:7px}
+.ex-opt{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .15s;background:var(--surface);font-size:13px;line-height:1.5}
+.ex-opt:hover{background:var(--surface2)}
+.ex-opt.sel{border-color:var(--blue);background:var(--blue-bg)}
+.ex-opt-ltr{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--text3);flex-shrink:0;margin-top:1px}
+.ex-opt.sel .ex-opt-ltr{background:var(--blue);border-color:var(--blue);color:#fff}
+.ex-timer{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+.ex-tdot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.ex-tdot.warn{background:var(--red);animation:p .8s ease-in-out infinite}
+.ex-nav{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.ex-score-ring{width:96px;height:96px;border-radius:50%;border:3px solid var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px}
+.ex-score-pct{font-size:28px;font-weight:700;color:var(--blue)}
+.ex-score-of{font-size:10px;color:var(--text3)}
+.ex-verdict{padding:11px 16px;border-radius:var(--r);font-size:13px;font-weight:600;text-align:center;margin-top:12px}
+.ex-verdict.pass{background:var(--green-bg);color:var(--green-t)}
+.ex-verdict.mid{background:var(--orange-bg);color:var(--orange-t)}
+.ex-verdict.fail{background:var(--red-bg);color:var(--red-t)}
+.ex-bk-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.ex-bk-lbl{font-size:12px;color:var(--text2);min-width:110px}
+.ex-bk-bar{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.ex-bk-fill{height:100%;border-radius:3px;background:var(--blue)}
+.ex-bk-val{font-size:11px;font-weight:700;color:var(--blue-t);min-width:30px}
+.ex-tab-bar{display:flex;gap:6px;margin-bottom:14px}
+.ex-tab-btn{padding:7px 16px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-family:var(--font);cursor:pointer;background:var(--surface);color:var(--text2);font-weight:500}
+.ex-tab-btn.active{background:var(--blue-bg);color:var(--blue-t);border-color:rgba(26,86,219,.2)}
+.ex-flex-between{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ex-section-title{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.ex-table{width:100%;border-collapse:collapse;font-size:12px}
+.ex-table th{text-align:right;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--text3);font-weight:600;font-size:11px}
+.ex-table td{padding:9px 10px;border-bottom:1px solid var(--surface2);color:var(--text);vertical-align:middle}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-csv-preview{background:var(--surface2);border-radius:var(--r);padding:10px;font-family:monospace;font-size:10px;color:var(--text3);overflow-x:auto;margin-top:8px;white-space:pre;direction:ltr;text-align:left;border:1px solid var(--border)}
+.ex-spinner{width:36px;height:36px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+
+/* ══ DARK MODE ══ */
+html.dark{
+  --bg:#0f0f11;--surface:#1a1a1f;--surface2:#24242b;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+  --text:#e8e7e3;--text2:#9c9b96;--text3:#5c5b58;
+  --blue:#4f8ef7;--blue-bg:#1a2340;--blue-t:#93b8fb;
+  --green:#34d399;--green-bg:#0d2820;--green-t:#6ee7b7;
+  --orange:#fbbf24;--orange-bg:#2a1f07;--orange-t:#fcd34d;
+  --red:#f87171;--red-bg:#2a0e0e;--red-t:#fca5a5;
+  --purple:#a78bfa;--purple-bg:#1e1530;--purple-t:#c4b5fd;
+}
+html.dark body{color-scheme:dark}
+html.dark .sidebar{background:var(--surface);border-color:var(--border)}
+html.dark .topbar{background:var(--surface)}
+html.dark .card{background:var(--surface)}
+html.dark .metric{background:var(--surface)}
+html.dark .ccard{background:var(--surface)}
+html.dark input,html.dark select,html.dark textarea{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+html.dark .modal-box{background:var(--surface)}
+html.dark .pipe-bar{background:var(--surface)}
+html.dark .filters{background:var(--surface)}
+html.dark .opt{background:var(--surface)}
+html.dark .d-table th{background:var(--surface2)}
+html.dark .d-table tr:hover td{background:var(--surface2)}
+/* dark toggle btn */
+.dark-toggle{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);background:var(--surface2);cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0}
+.dark-toggle:hover{background:var(--border2)}
+/* editable name */
+.user-name-wrap{display:flex;align-items:center;gap:5px;cursor:pointer}
+.user-name-wrap:hover .edit-icon{opacity:1}
+.edit-icon{opacity:0;font-size:10px;color:var(--text3);transition:opacity .15s}
+.name-input{font-size:12px;font-weight:600;font-family:var(--font);border:1px solid var(--blue);border-radius:4px;padding:2px 6px;outline:none;background:var(--surface);color:var(--text);width:110px}
+
+/* ══ GOOGLE FORMS STYLE ══ */
+.gf-wrap{max-width:640px;margin:0 auto;padding:24px 16px 60px}
+.gf-header{background:linear-gradient(135deg,#4338ca 0%,#1d4ed8 100%);border-radius:12px 12px 0 0;padding:28px 28px 24px;margin-bottom:0;color:#fff}
+.gf-header-title{font-size:24px;font-weight:700;margin-bottom:6px}
+.gf-header-sub{font-size:13px;opacity:.8;line-height:1.6}
+.gf-header-bar{height:10px;background:#6366f1;border-radius:0}
+.gf-progress{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:14px;overflow:hidden}
+.gf-progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s ease}
+.gf-card{background:var(--surface);border:1px solid var(--border);border-radius:0 0 12px 12px;padding:24px 28px;margin-bottom:12px}
+.gf-card.standalone{border-radius:12px;margin-top:12px}
+.gf-q-num{font-size:11px;font-weight:700;color:#6366f1;margin-bottom:5px;letter-spacing:.04em}
+.gf-q-text{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.5}
+.gf-q-hint{font-size:12px;color:var(--text3);margin-bottom:14px}
+.gf-required{color:#ef4444;margin-right:3px}
+.gf-input{width:100%;padding:12px 14px;border:0;border-bottom:2px solid var(--border2);border-radius:0;font-size:14px;font-family:var(--font);color:var(--text);background:transparent;outline:none;transition:border-color .2s;margin-bottom:4px}
+.gf-input:focus{border-bottom-color:#4338ca}
+.gf-select{width:100%;padding:12px 14px;border:0;border-bottom:2px solid var(--border2);border-radius:0;font-size:14px;font-family:var(--font);color:var(--text);background:transparent;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6a65' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center}
+.gf-select:focus{border-bottom-color:#4338ca}
+.gf-chip-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.gf-chip{display:inline-flex;align-items:center;gap:6px;background:var(--blue-bg);color:var(--blue-t);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600}
+.gf-chip button{background:none;border:none;cursor:pointer;color:var(--blue-t);font-size:14px;padding:0;line-height:1}
+.gf-skill-add{display:flex;gap:8px;margin-top:10px}
+.gf-skill-add input{flex:1;padding:10px 14px;border:0;border-bottom:2px solid var(--border2);border-radius:0;font-size:13px;font-family:var(--font);background:transparent;color:var(--text);outline:none}
+.gf-skill-add input:focus{border-bottom-color:#4338ca}
+.gf-skill-add button{padding:9px 18px;border-radius:20px;background:#4338ca;color:#fff;border:none;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer}
+.gf-submit-btn{width:100%;padding:14px;border-radius:8px;background:#4338ca;color:#fff;border:none;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:8px}
+.gf-submit-btn:hover{opacity:.9}
+.gf-submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.gf-err{font-size:11px;color:#ef4444;margin-top:4px;display:none}
+.gf-field.err .gf-input,.gf-field.err .gf-select{border-bottom-color:#ef4444}
+.gf-field.err .gf-err{display:block}
+.gf-success{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:40px 28px;text-align:center;margin-top:12px}
+.gf-success-icon{font-size:52px;margin-bottom:16px}
+.gf-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);gap:0;flex-shrink:0}
+.gf-tab{padding:12px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.gf-tab.on{color:#4338ca;border-bottom-color:#4338ca}
+.gf-tab:hover:not(.on){color:var(--text2)}
+html.dark .gf-input,html.dark .gf-select,html.dark .gf-skill-add input{color:var(--text)}
+html.dark .gf-header{background:linear-gradient(135deg,#3730a3 0%,#1e40af 100%)}
+
+/* ══ PASSWORD LOCK ══ */
+.lock-screen{position:fixed;inset:0;background:#0f0f14;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.lock-box{background:#1a1a22;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:40px 36px;width:340px;text-align:center}
+.lock-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;margin-bottom:6px}
+.lock-sub{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:32px}
+.lock-icon{font-size:40px;margin-bottom:20px}
+.lock-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.lock-desc{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:24px}
+.lock-input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;font-size:14px;font-family:var(--font);outline:none;text-align:center;letter-spacing:.1em;margin-bottom:12px;transition:border-color .2s}
+.lock-input:focus{border-color:#4f8ef7}
+.lock-btn{width:100%;padding:12px;border-radius:8px;background:#4f8ef7;color:#fff;border:none;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:opacity .15s}
+.lock-btn:hover{opacity:.9}
+.lock-err{font-size:12px;color:#f87171;margin-top:8px;min-height:18px}
+</style>
+</head>
+<body>
+
+<div id="lock-screen" class="lock-screen">
+  <div class="lock-box">
+    <div class="lock-logo">Luxury KSA</div>
+    <div class="lock-sub">نظام الموارد البشرية</div>
+    <div class="lock-icon">🔐</div>
+    <div class="lock-title">مرحباً</div>
+    <div class="lock-desc">أدخل كلمة المرور للدخول</div>
+    <input class="lock-input" id="lock-pass" type="password" placeholder="••••••••"
+      onkeydown="if(event.key==='Enter')checkPass()">
+    <button class="lock-btn" onclick="checkPass()">دخول</button>
+    <div class="lock-err" id="lock-err"></div>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo-box">
+    <div class="logo-name">Luxury KSA</div>
+    <div class="logo-sub">نظام الموارد البشرية</div>
+    <div class="ai-badge"><span class="pulse"></span>مدعوم بالذكاء الاصطناعي</div>
+  </div>
+  <div class="nav">
+    <div class="nav-lbl">الرئيسية</div>
+    <div class="ni on" id="ni-dash" onclick="go('dash')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".8"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/></svg>
+      لوحة التحكم
+    </div>
+    <div class="nav-lbl">التوظيف</div>
+    <div class="ni" id="ni-applicants" onclick="go('applicants')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM3 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="13" cy="5" r="2.5" fill="currentColor" opacity=".5"/><path d="M12 3v4M10 5h4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+      المرشحون <span class="ni-badge" id="badge-applicants" style="background:var(--orange-bg);color:var(--orange-t)">0</span>
+    </div>
+    <div class="ni" id="ni-cands" onclick="go('cands')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 13c0-2.8 2.2-5 5-5h2c2.8 0 5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 8l2 2 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      المتقدمون <span class="ni-badge" id="badge-cands">0</span>
+    </div>
+    <div class="nav-lbl">الاختبارات</div>
+    <div class="ni" id="ni-examres" onclick="go('examres')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      نتائج الاختبارات <span class="ni-badge green" id="badge-examres" style="display:none">0</span>
+    </div>
+    <div class="nav-lbl">البيانات</div>
+    <div class="ni" onclick="exportCSV()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 10v3h10v-3M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      تصدير CSV
+    </div>
+    <div class="ni" onclick="confirmReset()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8A5 5 0 113 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 4v4H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      مسح البيانات
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div style="margin-bottom:10px">
+      <div id="sync-indicator" style="display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;background:var(--surface2);color:var(--text3);border:1px solid var(--border);transition:all .14s" onclick="openSetup()">
+        <span id="sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0"></span>
+        <span id="sync-label">غير متصل — إعداد المزامنة</span>
+      </div>
+    </div>
+    <div class="user-row">
+      <div class="user-av" id="user-av-initials">م</div>
+      <div style="flex:1;min-width:0">
+        <div class="user-name-wrap" onclick="startEditName()" title="اضغط لتعديل الاسم">
+          <div class="user-name" id="display-name">مدير الموارد البشرية</div>
+          <span class="edit-icon">✏️</span>
+        </div>
+        <div class="user-role">مدير الموارد البشرية</div>
+      </div>
+      <div class="dark-toggle" id="dark-toggle-btn" onclick="toggleDark()" title="الوضع الليلي">🌙</div>
+    </div>
+  </div>
+</div>
+<div class="main">
+
+  <!-- DASHBOARD -->
+  <div class="screen on" id="s-dash">
+    <div class="topbar">
+      <div class="topbar-title">لوحة التحكم</div>
+      <div class="ai-badge" style="font-size:11px;padding:5px 12px"><span class="pulse"></span>البيانات محفوظة</div>
+      <button class="btn" onclick="syncFromCloud()" style="font-size:11px">🔄 مزامنة</button>
+      <button class="btn primary" onclick="openModal()">+ إضافة متقدم</button>
+    </div>
+    <div class="content">
+      <div class="metrics">
+        <div class="metric"><div class="m-lbl">إجمالي المرشحين</div><div class="m-val" id="m-total">0</div><div class="m-change up" id="m-sub">—</div></div>
+        <div class="metric"><div class="m-lbl">التواصل قبل المقابلة</div><div class="m-val" id="m-inter">0</div><div class="m-change up">جاري التقييم</div></div>
+        <div class="metric"><div class="m-lbl">عروض وظيفية</div><div class="m-val" id="m-offer">0</div><div class="m-change up">بانتظار الرد</div></div>
+        <div class="metric"><div class="m-lbl">متوسط التطابق</div><div class="m-val" id="m-avg">—</div><div class="m-change up">معيار موزون</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">أحدث المرشحين</div><div class="card-link" onclick="go('cands')">عرض الكل ←</div></div>
+        <table class="d-table">
+          <thead><tr><th>الاسم</th><th>الوظيفة</th><th>التطابق</th><th>الاختبار (HR)</th><th>اختبار المرشح</th><th>المرحلة</th></tr></thead>
+          <tbody id="dash-table"><tr><td colspan="6"><div class="empty-state">أضف أول مرشح الآن</div></td></tr></tbody>
+        </table>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">توزيع المراحل</div></div>
+          <div id="stage-bars" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">آخر نتائج الاختبارات</div><div class="card-link" onclick="go('examres')">عرض الكل ←</div></div>
+          <div id="dash-exam-results">
+            <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">لا توجد نتائج بعد</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICANTS (stage 0) -->
+  <div class="screen" id="s-applicants">
+    <div class="topbar">
+      <div class="topbar-title">المرشحون — الطلبات الواردة</div>
+      <button class="btn" id="gsheet-sync-btn" onclick="syncFromGoogleSheet()" style="background:var(--green-bg);color:var(--green-t);border-color:transparent;font-size:12px">📊 مزامنة Google</button>
+      <button class="btn" onclick="document.getElementById('csv-import-input').click()" style="background:var(--blue-bg);color:var(--blue-t);border-color:transparent;font-size:12px">📥 استيراد CSV</button>
+      <input type="file" id="csv-import-input" accept=".csv" style="display:none" onchange="importCSVFile(this)">
+      <button class="btn" onclick="syncFromCloud()" style="font-size:11px">🔄 مزامنة</button>
+    </div>
+    <div class="filters" style="gap:6px;flex-wrap:wrap">
+      <div class="search" style="max-width:260px"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input type="text" id="app-search" placeholder="بحث..." oninput="renderApplicants()"></div>
+    </div>
+    <div class="content">
+      <!-- Google Form Setup Banner -->
+      <div id="gform-banner" style="border-radius:var(--r2);margin-bottom:16px;overflow:hidden">
+        <div style="background:var(--green-bg);border:1px solid rgba(5,122,85,.15);border-radius:var(--r2);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <span style="font-size:20px">📊</span>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700;color:var(--green-t)">Google Form مرتبط</div>
+            <div style="font-size:11px;color:var(--green-t);opacity:.8;margin-top:2px">مزامنة تلقائية كل دقيقة · <span id="last-sync-lbl">لم تتم بعد</span></div>
+          </div>
+          <a href="https://forms.gle/b19798fFGDCzuK4XA" target="_blank" style="padding:6px 14px;border-radius:var(--r);background:var(--green);color:#fff;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap">📋 فتح الفورم ↗</a>
+          <button onclick="syncFromGoogleSheet(true)" style="padding:6px 14px;border-radius:var(--r);background:var(--green-t);color:#fff;border:none;font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">🔄 مزامنة الآن</button>
+        </div>
+        <div id="sync-error-box" style="display:none;background:var(--orange-bg);border:1px solid rgba(180,83,9,.2);border-top:none;padding:10px 18px;font-size:12px;color:var(--orange-t)">
+          ⚠️ <b>خطوة مطلوبة:</b> افتح الـ Sheet ← File ← Share ← <b>Publish to web</b> ← Publish ← حدد الورقة ← Publish
+        </div>
+      </div>
+      <div id="applicants-body"></div>
+    </div>
+  </div>
+
+  <!-- CANDIDATES -->
+  <div class="screen" id="s-cands">
+    <div class="topbar">
+      <div class="topbar-title">المتقدمون — قيد التقييم</div>
+      <button class="btn primary" onclick="openModal()">+ إضافة متقدم</button>
+    </div>
+    <div class="pipe-bar" id="pipe-bar"></div>
+    <div class="filters">
+      <div class="search"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input type="text" id="search-input" placeholder="بحث..." oninput="renderKanban()"></div>
+      <span class="chip on" id="f-all" onclick="setF('all')">الكل</span>
+      <span class="chip" id="f-high" onclick="setF('high')">ممتاز +80%</span>
+      <span class="chip" id="f-med" onclick="setF('med')">متوسط 60-79%</span>
+      <span class="chip" id="f-low" onclick="setF('low')">يحتاج مراجعة</span>
+    </div>
+    <div class="kanban-wrap">
+      <div class="kanban" id="kanban"></div>
+      <!-- DETAIL PANEL -->
+      <div class="detail">
+        <div class="empty-state" id="d-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" opacity=".3"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          اختر مرشحاً لعرض تفاصيله
+        </div>
+        <div id="d-content" style="display:none;flex-direction:column;height:100%;overflow:hidden">
+          <div class="detail-hdr">
+            <div class="d-top"><div class="d-av" id="d-av"></div><div><div class="d-name" id="d-name"></div><div class="d-role" id="d-role"></div></div></div>
+            <div class="score-big"><div class="sb-num" id="d-score"></div><div class="sb-right"><div class="sb-lbl">نسبة التطابق</div><span class="sb-grade" id="d-grade"></span></div></div>
+          </div>
+          <div class="d-tabs">
+            <div class="d-tab on" id="tab-info" onclick="switchTab('info')">المعلومات</div>
+            <div class="d-tab" id="tab-test" onclick="switchTab('test')">📝 اختبار HR</div>
+            <div class="d-tab" id="tab-email" onclick="switchTab('email')">✉️ الإيميل</div>
+          </div>
+          <div class="d-body">
+            <div id="pane-info"></div>
+            <div id="pane-test" style="display:none"></div>
+            <div id="pane-email" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM RESULTS SCREEN -->
+  <div class="screen" id="s-examres">
+    <div class="topbar">
+      <div class="topbar-title">نتائج الاختبارات</div>
+      <button class="btn" onclick="syncFromCloud()" style="font-size:11px">🔄 مزامنة</button>
+      <button class="btn green-btn" onclick="exExportCSV()">⬇ تصدير CSV</button>
+      <button class="btn danger-btn" onclick="exClearAll()">🗑 مسح الكل</button>
+    </div>
+    <div class="filters" style="gap:6px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap;align-self:center">التقدير:</span>
+      <span class="chip on" id="exf-all"  onclick="setExF('all')">الكل</span>
+      <span class="chip"    id="exf-mmt"  onclick="setExF('mmt')">⭐ ممتاز &nbsp;80%+</span>
+      <span class="chip"    id="exf-jyd"  onclick="setExF('jyd')">✅ جيد &nbsp;60–79%</span>
+      <span class="chip"    id="exf-mbl"  onclick="setExF('mbl')">🟡 مقبول &nbsp;40–59%</span>
+      <span class="chip"    id="exf-daf"  onclick="setExF('daf')">🔴 ضعيف &nbsp;أقل من 40%</span>
+      <span style="font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap;align-self:center;margin-right:8px">الفرز:</span>
+      <span class="chip on" id="exs-new"  onclick="setExS('new')">الأحدث</span>
+      <span class="chip"    id="exs-high" onclick="setExS('high')">الأعلى درجة</span>
+      <span class="chip"    id="exs-low"  onclick="setExS('low')">الأدنى درجة</span>
+    </div>
+    <div class="content">
+      <div id="examres-body"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- FORM LINK MODAL -->
+<div id="form-link-modal" onclick="if(event.target===this)closeFormLinkModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center;padding:16px">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title">🔗 رابط استبيان التقدم<button class="modal-close" onclick="closeFormLinkModal()">×</button></div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.7">أرسل هذا الرابط للمتقدم — بعد إرسال الاستبيان اضغط 🔄 مزامنة لتظهر البيانات في <b>المتقدمين</b>.</p>
+    <div>
+      <label style="font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px">تحديد الوظيفة (اختياري)</label>
+      <input type="text" id="fl-role" placeholder="مثال: مدير مبيعات" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:var(--font);margin-bottom:12px;outline:none;background:var(--surface);color:var(--text)" oninput="buildFormLink()">
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;font-size:11px;color:var(--text2);word-break:break-all;margin-bottom:12px;font-family:monospace;min-height:44px;line-height:1.7;direction:ltr;text-align:left" id="fl-link-box">—</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" onclick="copyFormLink()" style="flex:1;min-width:120px">📋 نسخ الرابط</button>
+      <button class="btn" onclick="openFormDirect()" style="flex:1;min-width:120px">🔗 فتح مباشرة</button>
+      <button class="btn" onclick="closeFormLinkModal()" style="flex:0 0 auto;width:auto;padding:9px 18px">إغلاق</button>
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;background:var(--orange-bg);border-radius:var(--r);font-size:11px;color:var(--orange-t);line-height:1.6">
+      ⚠️ <b>للاستخدام المحلي:</b> استخدم "فتح مباشرة" وأرسل الرابط من شريط المتصفح.<br>
+      للإرسال عبر الإيميل: ارفع الملفين أولاً على الإنترنت (Netlify / Tiiny.host).
+    </div>
+  </div>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">إضافة متقدم جديد<button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row two">
+      <div><label>الاسم الكامل *</label><input type="text" id="f-name" placeholder="أحمد محمد العتيبي" oninput="updatePreview()"></div>
+      <div><label>الوظيفة المتقدم لها *</label><input type="text" id="f-role" placeholder="محاسب أول" oninput="updatePreview()"></div>
+    </div>
+    <div class="form-row two">
+      <div><label>البريد الإلكتروني *</label><input type="email" id="f-email" placeholder="ahmed@example.com"></div>
+      <div><label>رقم الجوال</label><input type="text" id="f-phone" placeholder="+966 5x xxx xxxx"></div>
+    </div>
+    <div class="form-row two">
+      <div><label>المؤهل العلمي</label>
+        <select id="f-edu" onchange="updatePreview()">
+          <option value="">اختر...</option><option>دبلوم</option><option>بكالوريوس</option><option>ماجستير</option><option>دكتوراه</option>
+        </select>
+      </div>
+      <div><label>سنوات الخبرة</label><input type="number" id="f-exp" placeholder="5" min="0" max="40" oninput="updatePreview()"></div>
+    </div>
+    <div class="form-row">
+      <label>التخصص (لتوليد الاختبار)</label>
+      <input type="text" id="f-spec-text" placeholder="مثال: محاسبة — موارد بشرية — تمويل — تسويق — تقنية معلومات">
+      <div class="hint">سيُولَّد اختبار مخصص بالذكاء الاصطناعي بناءً على هذا التخصص</div>
+    </div>
+    <div class="form-row">
+      <label>المهارات (افصل بفاصلة)</label>
+      <input type="text" id="f-skills" placeholder="Excel, QuickBooks, IFRS, تحليل مالي" oninput="updatePreview()">
+    </div>
+    <div class="form-row two">
+      <div><label>تطابق التخصص مع الوظيفة</label>
+        <select id="f-spec" onchange="updatePreview()">
+          <option value="100">مباشر — تطابق تام</option>
+          <option value="75">قريب — تطابق جيد</option>
+          <option value="50">جزئي — تطابق متوسط</option>
+          <option value="25">بعيد — تطابق ضعيف</option>
+          <option value="0">لا يتطابق</option>
+        </select>
+      </div>
+      <div><label>المرحلة الحالية</label>
+        <select id="f-stage">
+          <option value="1" selected>التواصل قبل المقابلة</option>
+          <option value="2">المقابلات</option>
+          <option value="3">الاختبارات</option><option value="4">العرض الوظيفي</option><option value="5">تم التعيين</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>الراتب المقترح (ريال)</label>
+      <input type="text" id="f-salary" placeholder="مثال: 12,000">
+    </div>
+    <div class="form-row">
+      <label>ملاحظات</label>
+      <textarea id="f-notes" placeholder="أي ملاحظات..."></textarea>
+    </div>
+    <div class="preview-box">
+      <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+        <span class="pulse" style="width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0"></span>معاينة التقييم
+      </div>
+      <div id="pv-rows"></div>
+      <div class="pv-bar"><div class="pv-fill" id="pv-bar-fill" style="width:0%"></div></div>
+      <div class="pv-total"><span>النسبة الكلية</span><span id="pv-total" style="color:var(--blue)">—</span></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal()">إلغاء</button>
+      <button class="btn primary" onclick="addCandidate()">إضافة المتقدم</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP MODAL -->
+<div class="modal-overlay" id="setup-modal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>🔗 إعداد المزامنة السحابية</span>
+      <button class="modal-close" onclick="document.getElementById('setup-modal').classList.remove('open')">×</button>
+    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:16px;background:var(--blue-bg);border-radius:var(--r);padding:12px;border:1px solid rgba(26,86,219,.12)">
+      <b style="color:var(--blue-t)">كيف تعمل؟</b><br>
+      البيانات تُحفظ على <b>JSONBin.io</b> (مجاني) وتُشارَك بين جميع الأجهزة. المرشح يحل الاختبار على جهازه والنتيجة تظهر عندك فوراً.
+    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.9;margin-bottom:16px">
+      <b>خطوات الإعداد (مرة واحدة فقط):</b><br>
+      ١. افتح <a href="https://jsonbin.io" target="_blank" style="color:var(--blue)">jsonbin.io</a> وأنشئ حساباً مجانياً<br>
+      ٢. من القائمة → <b>API Keys</b> → انسخ الـ Master Key<br>
+      ٣. من القائمة → <b>Bins</b> → <b>Create Bin</b> → الصق <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">{}</code> → احفظ<br>
+      ٤. انسخ الـ <b>Bin ID</b> من الرابط (الجزء الأخير)
+    </div>
+    <div class="form-row">
+      <label>Master Key (X-Master-Key)</label>
+      <input type="password" id="setup-key" placeholder="$2a$10$..." value="">
+    </div>
+    <div class="form-row">
+      <label>Bin ID</label>
+      <input type="text" id="setup-bin" placeholder="6849abc123def456..." value="">
+    </div>
+    <div id="setup-status" style="font-size:12px;min-height:20px;margin-bottom:8px"></div>
+    <div class="form-actions">
+      <button class="btn" onclick="document.getElementById('setup-modal').classList.remove('open')">إلغاء</button>
+      <button class="btn primary" onclick="setupTest()">اختبار الاتصال</button>
+      <button class="btn green-btn" onclick="setupSave()">حفظ والمزامنة</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ CONSTANTS ══
+const STAGES=['الفرز الأولي','التواصل قبل المقابلة','المقابلات','الاختبارات','العرض الوظيفي','تم التعيين'];
+const STAGE_COLORS=['#9c9b96','#0891b2','#1a56db','#b45309','#057a55','#6c2bd9'];
+const BADGE_CLASS=['b-gray','b-teal','b-blue','b-orange','b-green','b-purple'];
+const AVC=[{bg:'#eff4ff',t:'#1e429f'},{bg:'#def7ec',t:'#03543f'},{bg:'#fffbeb',t:'#92400e'},{bg:'#f5f3ff',t:'#4a1d96'},{bg:'#fdf2f2',t:'#9b1c1c'}];
+const W={edu:{label:'المؤهل العلمي',pct:20},exp:{label:'سنوات الخبرة',pct:20},cv:{label:'السيرة الذاتية',pct:15},spec:{label:'التخصص',pct:25},exam:{label:'نتيجة الاختبار',pct:20}};
+const EDU={'ثانوية عامة':30,'ثانوية':30,'دبلوم':55,'بكالوريوس':80,'ماجستير':90,'دكتوراه':100};
+const EXPB=[{l:'0 سنوات',min:0,max:0,s:10},{l:'1-2 سنة',min:1,max:2,s:45},{l:'3-5 سنوات',min:3,max:5,s:75},{l:'6-9 سنوات',min:6,max:9,s:90},{l:'10+ سنوات',min:10,max:99,s:100}];
+function parseExp(v){
+  if(!v) return 0;
+  // Handle "من X إلى Y سنوات" format
+  const rangeM=v.match(/من\s*(\d+)/);
+  if(rangeM) return parseInt(rangeM[1]);
+  // Handle "أكثر من X" format
+  const moreM=v.match(/أكثر من\s*(\d+)/);
+  if(moreM) return parseInt(moreM[1])+1;
+  return parseInt(v)||0;
+}
+
+// ══ JSONBIN CLOUD SYNC ══
+// البيانات تُخزَّن على JSONBin.io وتُشارَك بين جميع الأجهزة
+const JBIN_BASE = 'https://api.jsonbin.io/v3/b';
+let JBIN_KEY  = localStorage.getItem('hr_jbin_key')  || '';
+let JBIN_BIN  = localStorage.getItem('hr_jbin_bin')  || '';
+let _syncBusy = false;
+let _pendingSave = false;
+
+async function cloudLoad(){
+  if(!JBIN_KEY||!JBIN_BIN) return null;
+  try{
+    const r=await fetch(`${JBIN_BASE}/${JBIN_BIN}/latest`,{headers:{'X-Master-Key':JBIN_KEY}});
+    if(!r.ok) return null;
+    const d=await r.json();
+    return d.record||null;
+  }catch(e){return null;}
+}
+
+async function cloudSave(data){
+  if(!JBIN_KEY||!JBIN_BIN){
+    // fallback to localStorage only
+    localStorage.setItem('hr5_cands',JSON.stringify(data.cands||[]));
+    localStorage.setItem('hr5_tests',JSON.stringify(data.tests||{}));
+    localStorage.setItem('hr-exam-results',JSON.stringify(data.exResults||[]));
+    return;
+  }
+  if(_syncBusy){_pendingSave=data;return;}
+  _syncBusy=true;
+  try{
+    await fetch(`${JBIN_BASE}/${JBIN_BIN}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JBIN_KEY},
+      body:JSON.stringify(data)
+    });
+    if(_pendingSave){const p=_pendingSave;_pendingSave=false;await cloudSave(p);}
+  }catch(e){}
+  _syncBusy=false;
+}
+
+function getCloudData(){return{cands,tests,exResults,deletedIds};}
+function save(){
+  cloudSave(getCloudData());
+  localStorage.setItem('hr5_cands',JSON.stringify(cands));
+  localStorage.setItem('hr5_deleted',JSON.stringify(deletedIds));
+}
+function saveTests(){cloudSave(getCloudData());localStorage.setItem('hr5_tests',JSON.stringify(tests));}
+
+// ══ STATE ══
+let cands = JSON.parse(localStorage.getItem('hr5_cands')||'[]');
+let deletedIds = JSON.parse(localStorage.getItem('hr5_deleted')||'[]'); // حفظ المحذوفين
+let tests  = JSON.parse(localStorage.getItem('hr5_tests')||'{}');
+let selId=null, curF='all', curTab='info';
+
+// ══ EXAM RESULTS STATE ══
+let exResults=[];
+try{const d=localStorage.getItem('hr-exam-results');if(d)exResults=JSON.parse(d);}catch(e){}
+function exSave(){
+  localStorage.setItem('hr-exam-results',JSON.stringify(exResults));
+  cloudSave(getCloudData());
+}
+function updateExamBadge(){
+  const b=document.getElementById('badge-examres');
+  const n=exResults.length;
+  if(b){if(n){b.textContent=n;b.style.display='';}else b.style.display='none';}
+}
+
+// ══ SCORING ══
+function calcScore(c){
+  const D=[];
+
+  // 1. المؤهل العلمي — يقرأ النص مباشرة من الفورم
+  const eduRaw=(c.edu||'').trim();
+  const eR=EDU[eduRaw]||Object.entries(EDU).find(([k])=>eduRaw.includes(k))?.[1]||0;
+  D.push({label:W.edu.label,raw:eR,w:W.edu.pct,contrib:Math.round(eR*W.edu.pct/100),
+    why:eduRaw?`${eduRaw} → ${eR} نقطة`:'لم يُحدد'});
+
+  // 2. سنوات الخبرة — نص أو رقم
+  const expRaw=(c.exp||'0').toString().trim();
+  const ey=parseExp(expRaw);
+  const band=EXPB.find(b=>ey>=b.min&&ey<=b.max)||EXPB[0];
+  D.push({label:W.exp.label,raw:band.s,w:W.exp.pct,contrib:Math.round(band.s*W.exp.pct/100),
+    why:`${ey} سنة → ${band.l} → ${band.s} نقطة`});
+
+  // 3. السيرة الذاتية — رابط أو ملف
+  const hasCv=!!(c.cvLink||c.cv);
+  const cvR=hasCv?100:0;
+  D.push({label:W.cv.label,raw:cvR,w:W.cv.pct,contrib:Math.round(cvR*W.cv.pct/100),
+    why:hasCv?'✅ تم رفع السيرة الذاتية':'لم يُرفع السيرة الذاتية'});
+
+  // 4. التخصص — نص من الفورم
+  const specRaw=(c.specText||c.spec||'').trim();
+  const spR=specRaw&&!/^\d+$/.test(specRaw)?75:parseInt(specRaw)||0;
+  D.push({label:W.spec.label,raw:spR,w:W.spec.pct,contrib:Math.round(spR*W.spec.pct/100),
+    why:specRaw?`${specRaw} → ${spR} نقطة`:'لم يُحدد التخصص'});
+
+  // 5. نتيجة الاختبار
+  const exR=exResults.find(r=>r.candidateId===c.id||r.name===c.name);
+  const examScore=exR?exR.score:0;
+  D.push({label:W.exam.label,raw:examScore,w:W.exam.pct,contrib:Math.round(examScore*W.exam.pct/100),
+    why:exR?`${examScore}% في الاختبار`:'لم يُجرَ الاختبار بعد'});
+
+  return{total:D.reduce((s,d)=>s+d.contrib,0),details:D};
+}
+function grade(s){
+  if(s>=90)return{lbl:'ممتاز',bg:'var(--green-bg)',t:'var(--green-t)'};
+  if(s>=75)return{lbl:'جيد جداً',bg:'var(--blue-bg)',t:'var(--blue-t)'};
+  if(s>=60)return{lbl:'جيد',bg:'var(--orange-bg)',t:'var(--orange-t)'};
+  return{lbl:'يحتاج مراجعة',bg:'var(--red-bg)',t:'var(--red-t)'};
+}
+function sc(s){return s>=75?'var(--green)':s>=60?'var(--orange)':'var(--red)';}
+function initials(n){const p=n.trim().split(' ');return p.length>=2?p[0][0]+p[1][0]:p[0].slice(0,2);}
+function ago(ts){const m=Math.floor((Date.now()-ts)/60000);if(m<1)return'للتو';if(m<60)return`${m}د`;const h=Math.floor(m/60);if(h<24)return`${h}س`;return`${Math.floor(h/24)}ي`;}
+function fmtDate(d){if(!d)return'';try{return new Date(d+'T12:00:00').toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});}catch{return d;}}
+
+// ══ NAVIGATION ══
+function go(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));
+  document.getElementById('s-'+s).classList.add('on');
+  const ni=document.getElementById('ni-'+s);if(ni)ni.classList.add('on');
+  if(s==='dash')renderDash();
+  if(s==='applicants'){renderApplicants();updateApplicantsBadge();}
+  if(s==='cands')renderKanban();
+  if(s==='exam'){go('examres');return;}
+  if(s==='examres'){renderExamResults();updateExamBadge();}
+}
+
+// ══ DASHBOARD ══
+function renderDash(){
+  const total=cands.length;
+  document.getElementById('m-total').textContent=total;
+  document.getElementById('m-sub').textContent=total?`${total} مرشح مسجل`:'لا يوجد بعد';
+  document.getElementById('m-inter').textContent=cands.filter(c=>c.stage==1).length;
+  document.getElementById('m-offer').textContent=cands.filter(c=>c.stage==3).length;
+  document.getElementById('m-avg').textContent=total?Math.round(cands.reduce((s,c)=>s+calcScore(c).total,0)/total)+'%':'—';
+  const tbody=document.getElementById('dash-table');
+  if(!total){tbody.innerHTML='<tr><td colspan="6"><div class="empty-state">أضف أول مرشح الآن</div></td></tr>';return;}
+  tbody.innerHTML=[...cands].sort((a,b)=>b.ts-a.ts).slice(0,8).map(c=>{
+    const{total:s}=calcScore(c),av=AVC[(parseInt(c.id)||c.id.split("").reduce((a,b)=>a+b.charCodeAt(0),0))%5],td=tests[c.id];
+    const tBadge=td?.submitted?`<span class="badge" style="background:${td.score>=70?'var(--green-bg)':'var(--orange-bg)'};color:${td.score>=70?'var(--green-t)':'var(--orange-t)'}">${td.score}%</span>`:'<span class="badge b-gray" style="font-size:9px">لم يُجرَ</span>';
+    // Check for exam result match by name
+    const exRes=exResults.find(r=>r.name===c.name);
+    const exBadge=exRes?`<span class="badge" style="background:${exRes.score>=60?'var(--green-bg)':'var(--orange-bg)'};color:${exRes.score>=60?'var(--green-t)':'var(--orange-t)'}">${exRes.score}% — ${exRes.spec}</span>`:'<span class="badge b-gray" style="font-size:9px">—</span>';
+    return`<tr style="cursor:pointer" onclick="go('cands');selectC('${c.id}')">
+      <td><div style="display:flex;align-items:center;gap:9px"><div style="width:30px;height:30px;border-radius:50%;background:${av.bg};color:${av.t};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${initials(c.name)}</div><b>${c.name}</b></div></td>
+      <td style="font-size:12px;color:var(--text2)">${c.role}</td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div style="width:50px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:${s}%;height:100%;background:${sc(s)};border-radius:2px"></div></div><b style="font-size:11px;color:${sc(s)}">${s}%</b></div></td>
+      <td>${tBadge}</td>
+      <td>${exBadge}</td>
+      <td><span class="badge ${BADGE_CLASS[c.stage]}">${STAGES[c.stage]}</span></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('stage-bars').innerHTML=STAGES.map((s,i)=>{
+    const cnt=cands.filter(c=>c.stage==i).length,pct=total?Math.round(cnt/total*100):0;
+    return`<div style="display:flex;align-items:center;gap:12px"><div style="font-size:12px;font-weight:600;min-width:120px;color:var(--text2)">${s}</div><div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${STAGE_COLORS[i]};border-radius:4px"></div></div><div style="font-size:12px;font-weight:700;min-width:50px;color:var(--text2)">${cnt} (${pct}%)</div></div>`;
+  }).join('');
+  // Mini exam results in dashboard
+  const exDiv=document.getElementById('dash-exam-results');
+  if(!exResults.length){exDiv.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">لا توجد نتائج بعد<br><button class="btn primary" style="margin-top:10px;font-size:11px" onclick="go(&quot;examres&quot;)">ابدأ اختباراً</button></div>';return;}
+  exDiv.innerHTML=[...exResults].slice(-5).reverse().map(r=>{
+    const cls=r.status==='ناجح'?'b-green':r.status==='متوسط'?'b-orange':'b-gray';
+    return`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)">
+      <div><div style="font-size:12px;font-weight:600">${r.name}</div><div style="font-size:10px;color:var(--text3)">${r.spec}</div></div>
+      <span class="badge ${cls}">${r.score}%</span>
+    </div>`;
+  }).join('')+`<div style="text-align:center;margin-top:8px"><button class="btn" style="font-size:11px" onclick="go(&quot;examres&quot;)">عرض الكل</button></div>`;
+  updateExamBadge();
+}
+
+// ══ KANBAN ══
+function setF(f){curF=f;['all','high','med','low'].forEach(x=>document.getElementById('f-'+x).classList.toggle('on',x===f));renderKanban();}
+function renderKanban(){
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  const list=cands.filter(c=>{
+    if(c.stage===0)return false; // stage 0 shown in applicants screen
+    if(q&&!c.name.toLowerCase().includes(q)&&!c.role.toLowerCase().includes(q))return false;
+    const s=calcScore(c).total;
+    if(curF==='high'&&s<80)return false;if(curF==='med'&&(s>=80||s<60))return false;if(curF==='low'&&s>=60)return false;
+    return true;
+  });
+  document.getElementById('badge-cands').textContent=cands.filter(c=>c.stage>=1).length;
+  const appBadge=document.getElementById('badge-applicants');
+  if(appBadge){const n=cands.filter(c=>c.stage===0).length;appBadge.textContent=n;appBadge.style.display=n?'inline':'none';}
+  loadManagerName();
+  initDark();
+  const candsOnly=cands.filter(c=>c.stage>=1);
+  document.getElementById('pipe-bar').innerHTML=[{label:'الكل',sub:'إجمالي',cnt:candsOnly.length},...STAGES.slice(1).map((s,i)=>({label:s,sub:'متقدم',cnt:cands.filter(c=>c.stage==i+1).length}))].map((s,i)=>`<div class="ps ${i===0?'on':''}"><div class="ps-lbl">${s.label}</div><div class="ps-num">${s.cnt}</div><div class="ps-sub">${s.sub}</div></div>`).join('');
+  document.getElementById('kanban').innerHTML=STAGES.slice(1).map((stage,idx)=>{const si=idx+1;
+    const cards=list.filter(c=>c.stage==si);
+    const candidateBadge=si>=2?`<span style="font-size:8px;font-weight:700;padding:1px 6px;border-radius:10px;background:var(--purple-bg);color:var(--purple-t);margin-right:4px">مرشح</span>`:'';
+    return`<div class="col">
+      <div class="col-hdr"><div class="col-title"><div class="col-dot" style="background:${STAGE_COLORS[si]}"></div>${stage}${candidateBadge}</div><div class="col-cnt">${cands.filter(c=>c.stage==si).length}</div></div>
+      <div class="col-cards">
+        ${!cards.length?`<div style="padding:18px;text-align:center;font-size:11px;color:var(--text3);border:1px dashed var(--border);border-radius:var(--r2)">لا يوجد</div>`:''}
+        ${cards.map(c=>{
+          const{total:s}=calcScore(c),av=AVC[(parseInt(c.id)||c.id.split("").reduce((a,b)=>a+b.charCodeAt(0),0))%5],g=grade(s),td=tests[c.id];
+          const sk=(c.skills||'').split(',').filter(Boolean).slice(0,3);
+          const tTag=td?.submitted?`<span class="tag" style="background:${td.score>=70?'var(--green-bg)':'var(--orange-bg)'};color:${td.score>=70?'var(--green-t)':'var(--orange-t)'}">HR ${td.score}%</span>`:'';
+          const exRes=exResults.find(r=>r.name===c.name);
+          const exTag=exRes?`<span class="tag" style="background:${exRes.score>=60?'var(--green-bg)':'var(--red-bg)'};color:${exRes.score>=60?'var(--green-t)':'var(--red-t)'}">اختبار ${exRes.score}%</span>`:'';
+          return`<div class="ccard ${selId===c.id?'sel':''}" onclick="selectC('${c.id}')">
+            <div class="cc-top"><div class="cc-av" style="background:${av.bg};color:${av.t}">${initials(c.name)}</div><div><div class="cc-name">${c.name}</div><div class="cc-role">${c.role}</div></div></div>
+            <div class="score-row"><div class="sbar"><div class="sfill" style="width:${s}%;background:${sc(s)}"></div></div><span class="snum" style="color:${sc(s)}">${s}%</span><span class="badge" style="font-size:9px;padding:1px 6px;background:${g.bg};color:${g.t}">${g.lbl}</span></div>
+            ${sk.length||tTag||exTag?`<div class="cc-tags">${sk.map(x=>`<span class="tag">${x.trim()}</span>`).join('')}${c.exp?`<span class="tag">${c.exp}س</span>`:''}${tTag}${exTag}</div>`:''}
+            <div class="cc-foot"><span class="cc-time">${ago(c.ts)}</span><span class="ai-mini"><span class="pulse" style="width:4px;height:4px"></span>AI تقييم</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  if(selId)renderDetail();
+}
+
+function selectC(id){selId=id;curTab='info';renderKanban();renderDetail();}
+
+function switchTab(t){
+  curTab=t;
+  ['info','test','email'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('on',x===t);
+    document.getElementById('pane-'+x).style.display=x===t?'block':'none';
+  });
+  if(t==='test')renderTestPane();
+  if(t==='email')renderEmailPane();
+}
+
+// ══ DETAIL PANEL ══
+function renderDetail(){
+  const c=cands.find(x=>x.id===selId);
+  if(!c){document.getElementById('d-empty').style.display='flex';document.getElementById('d-content').style.display='none';return;}
+  document.getElementById('d-empty').style.display='none';
+  document.getElementById('d-content').style.display='flex';
+  const{total,details}=calcScore(c),g=grade(total),av=AVC[(parseInt(c.id)||c.id.split("").reduce((a,b)=>a+b.charCodeAt(0),0))%5];
+  document.getElementById('d-av').style.cssText=`background:${av.bg};color:${av.t}`;
+  document.getElementById('d-av').textContent=initials(c.name);
+  document.getElementById('d-name').textContent=c.name;
+  document.getElementById('d-role').textContent=c.role+(c.exp?` · ${c.exp}س`:'');
+  document.getElementById('d-score').textContent=total+'%';
+  document.getElementById('d-score').style.color=sc(total);
+  const ge=document.getElementById('d-grade');ge.textContent=g.lbl;ge.style.cssText=`background:${g.bg};color:${g.t}`;
+  const formula=details.map(d=>`(${d.raw}×${d.w}%)=${d.contrib}`).join('+');
+  const weak=[...details].sort((a,b)=>a.raw-b.raw)[0];
+  const strong=[...details].sort((a,b)=>b.raw-a.raw)[0];
+  let note=`<strong>الذكاء الاصطناعي (${g.lbl}):</strong> `;
+  if(total>=90)note+=`مرشح استثنائي. أقوى نقطة: ${strong.label}. يُنصح بالعرض الوظيفي فوراً.`;
+  else if(total>=75)note+=`مرشح قوي. نقطة تطوير: ${weak.label} (${weak.raw}/100).`;
+  else if(total>=60)note+=`مرشح متوسط. يحتاج تقييماً إضافياً. ضعف في: ${weak.label}.`;
+  else note+=`نسبة منخفضة. أضعف نقطة: ${weak.label} (${weak.raw}/100).`;
+  // Check linked exam result
+  const exRes=exResults.find(r=>r.name===c.name);
+  const exSection=exRes?`<div class="d-section"><div class="d-sec-title">نتيجة اختبار المرشح</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:${exRes.score>=60?'var(--green-bg)':'var(--red-bg)'};padding:10px 14px;border-radius:var(--r);margin-bottom:6px">
+      <div><div style="font-size:11px;font-weight:700;color:${exRes.score>=60?'var(--green-t)':'var(--red-t)'}">${exRes.spec}</div><div style="font-size:10px;color:var(--text3)">${exRes.date}</div></div>
+      <div style="font-size:24px;font-weight:700;color:${exRes.score>=60?'var(--green)':'var(--red)'}">${exRes.score}%</div>
+    </div>
+    <div style="font-size:11px;color:var(--text2)">${exRes.verdict}</div>
+  </div>`:'';
+  document.getElementById('pane-info').innerHTML=`
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+      <button class="btn" style="flex:1;font-size:11px" onclick="moveStage(1)">تقدم للمرحلة التالية ←</button>
+      <button class="btn" style="font-size:11px" onclick="moveStage(-1)">رجوع</button>
+      <button class="btn" style="font-size:11px;background:var(--red-bg);color:var(--red-t);border-color:transparent" onclick="deleteSelected()">حذف</button>
+    </div>
+    ${c.stage===1?`
+    <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:var(--r2);padding:14px 16px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:#0e7490;margin-bottom:10px">📞 التواصل قبل المقابلة</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">${c.phone?`رقم الجوال: <span style="color:#0891b2;font-size:16px">${c.phone}</span>`:'⚠️ لا يوجد رقم جوال'}</div>
+      ${c.phone?`
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="tel:${c.phone}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);background:#0891b2;color:#fff;text-decoration:none;font-size:13px;font-weight:600">
+          📞 اتصال مباشر
+        </a>
+        <a href="https://wa.me/${c.phone.replace(/[^0-9]/g,'')}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);background:#25d366;color:#fff;text-decoration:none;font-size:13px;font-weight:600">
+          💬 واتساب
+        </a>
+        <button onclick="moveStage(1)" style="padding:8px 18px;border-radius:var(--r);background:var(--blue);color:#fff;border:none;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer">
+          نقل للمقابلات ←
+        </button>
+      </div>`:''}
+    </div>`
+    :c.stage>=3?`<div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;background:var(--purple-bg);color:var(--purple-t);padding:4px 12px;border-radius:20px;margin-bottom:12px">★ مرشح — وصل لمرحلة الاختبارات</div>`:`<div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;background:var(--surface2);color:var(--text3);padding:4px 12px;border-radius:20px;margin-bottom:12px">متقدم — لم يصل للاختبارات بعد</div>`}
+    ${exSection}
+    <div class="d-section"><div class="d-sec-title">كيف حُسبت النسبة؟</div>
+      <div class="breakdown-box"><strong>المعادلة:</strong> ${formula} = <strong>${total}%</strong></div>
+      ${details.map(d=>`<div class="crit-row"><div class="cr-top"><span style="font-size:11px;font-weight:700">${d.label} <span style="font-size:9px;font-weight:600;padding:1px 6px;border-radius:10px;background:var(--surface);color:var(--text3)">وزن ${d.w}%</span></span><span style="font-size:11px;font-weight:700;color:${sc(d.raw)}">${d.raw}/100 → ${d.contrib}نقطة</span></div><div class="cr-bar"><div class="cr-fill" style="width:${d.raw}%;background:${d.raw>=75?'var(--green)':d.raw>=55?'var(--orange)':'var(--red)'}"></div></div><div class="cr-why">${d.why}</div></div>`).join('')}
+    </div>
+    <div class="d-section"><div class="d-sec-title">تحليل الذكاء الاصطناعي</div><div class="ai-note">${note}</div></div>
+    <div class="d-section"><div class="d-sec-title">بيانات التواصل</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:12px;color:var(--text3);min-width:20px">📧</span>
+          <input id="edit-email-${c.id}" type="email" value="${c.email||''}" placeholder="أضف بريد إلكتروني..." 
+            style="flex:1;font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font);background:var(--surface2);color:var(--text);outline:none"
+            onchange="updateCandEmail('${c.id}',this.value)">
+        </div>
+        ${c.phone?`<div style="font-size:12px;color:var(--text2)">📱 ${c.phone}</div>`:''}
+        ${c.edu?`<div style="font-size:12px;color:var(--text2)">🎓 ${c.edu}</div>`:''}
+        ${c.specText?`<div style="font-size:12px;color:var(--text2)">📚 ${c.specText}</div>`:''}
+      </div>
+    </div>
+    <div class="d-section"><div class="d-sec-title">مسار التوظيف</div>
+      ${STAGES.map((s,i)=>{const done=i<c.stage,active=i===c.stage;return`<div class="tl-item"><div class="tl-dot" style="background:${done?'var(--green)':active?'var(--blue)':'var(--border2)'}"></div><div><div class="tl-title" style="color:${active?'var(--blue-t)':done?'var(--green-t)':'var(--text3)'}">${s}</div><div class="tl-sub">${active?'المرحلة الحالية':done?'مكتمل':'في الانتظار'}</div></div></div>`;}).join('')}
+    </div>
+    ${c.notes?`<div class="d-section"><div class="d-sec-title">ملاحظات</div><div style="font-size:12px;color:var(--text2);line-height:1.7">${c.notes}</div></div>`:''}`;
+  if(curTab==='test')renderTestPane();
+  if(curTab==='email')renderEmailPane();
+}
+
+function moveStage(d){
+  const c=cands.find(x=>x.id===selId);if(!c)return;
+  const ns=Math.max(0,Math.min(5,c.stage+d));if(ns===c.stage)return;
+  c.stage=ns;save();renderKanban();renderDash();
+  if(ns===3){
+    toast(`🎉 ${c.name} وصل لمرحلة الاختبارات — أصبح مرشحاً`);
+  } else {
+    toast(`نُقل ${c.name} → ${STAGES[ns]||"المرشحون"}`);
+  }
+}
+function deleteSelected(){
+  const c=cands.find(x=>x.id===selId);if(!c)return;
+  if(!confirm(`حذف "${c.name}"؟`))return;
+  const delC=cands.find(x=>x.id===selId);
+  if(delC){deletedIds.push({id:delC.id,name:delC.name});}
+  cands=cands.filter(x=>x.id!==selId);delete tests[selId];selId=null;
+  save();saveTests();renderKanban();renderDash();toast('تم الحذف ✅');
+}
+
+// ══════════════════════════════════════════
+//   TEST PANE — إرسال رابط exam.html للمرشح
+// ══════════════════════════════════════════
+function renderTestPane(){
+  const c=cands.find(x=>x.id===selId);if(!c)return;
+  const area=document.getElementById('pane-test');
+  const spec=c.specText||c.role||'عام';
+  const hasEmail=!!c.email;
+  // Check if result already arrived from JSONBin
+  const exRes=exResults.find(r=>r.candidateId===c.id||(r.name===c.name&&c.examSent));
+  if(exRes){showExamResult(area,c,exRes);return;}
+  area.innerHTML=`
+    <div class="exam-link-box">
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">🔗</span>إرسال رابط الاختبار
+      </div>
+      <div style="font-size:11px;color:var(--blue-t);line-height:1.8;margin-bottom:14px">
+        أرسل للمرشح رابط الاختبار على إيميله — يفتحه على جهازه ويحل الاختبار. النتيجة والوقت المستغرق يظهران هنا تلقائياً بعد انتهائه.
+      </div>
+      ${c.examSent?`<div class="exam-link-sent">✅ أُرسل الرابط بتاريخ ${c.examSentDate}</div>`:''}
+      ${!hasEmail?`<div style="font-size:11px;color:var(--orange-t);background:var(--orange-bg);border-radius:var(--r);padding:8px 10px;margin-bottom:10px">⚠️ لا يوجد إيميل — أضفه في بيانات المتقدم</div>`:''}
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px">📬 إلى: <b>${c.email||'—'}</b> &nbsp;|&nbsp; التخصص: <b style="color:var(--blue-t)">${spec}</b></div>
+      <a class="btn primary" style="justify-content:center;text-decoration:none;margin-bottom:8px;${hasEmail?'':'opacity:.45;pointer-events:none'}"
+        href="${buildExamLink(c)}" target="_blank" onclick="markSent('${c.id}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        ${c.examSent?'إعادة إرسال الرابط عبر Gmail':'إرسال رابط الاختبار عبر Gmail'}
+      </a>
+      <div style="font-size:10px;color:var(--text3);text-align:center">بعد انتهاء المرشح، اضغط 🔄 مزامنة لتحديث النتيجة</div>
+    </div>`;
+}
+
+function buildExamLink(c){
+  const spec=c.specText||c.role||'عام';
+  // exam.html يجب أن يكون في نفس مجلد hr.html
+  const base=window.location.href.replace(/\/[^/]+$/, '/Luxury_ksa_test.html');
+  const params=new URLSearchParams({
+    cid: c.id,
+    cname: c.name,
+    spec,
+    dur: '480',
+    k: JBIN_KEY,
+    b: JBIN_BIN
+  });
+  const examUrl=`${base}?${params.toString()}`;
+  const subject=`رابط اختبار وظيفة ${c.role} | Luxury KSA`;
+  const body=
+`السلام عليكم ورحمة الله وبركاته،
+
+الأستاذ/الأستاذة: ${c.name}
+
+يسعدنا دعوتكم لإجراء اختبار تخصصي لوظيفة: ${c.role}
+
+يرجى الضغط على الرابط أدناه لبدء الاختبار:
+${examUrl}
+
+تفاصيل الاختبار:
+• عدد الأسئلة: 6 أسئلة
+• المدة الزمنية: 8 دقائق
+• التخصص: ${spec}
+• نسبة النجاح: 60%
+
+ملاحظة: الرابط مخصص لك شخصياً، يرجى إجراء الاختبار في مكان هادئ.
+
+مع أطيب التحيات،
+إدارة الموارد البشرية
+📧 hr@luxuryksa.com`;
+  return`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(c.email||'')}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function markSent(cid){
+  const c=cands.find(x=>x.id===cid);if(!c)return;
+  c.examSent=true;
+  c.examSentDate=new Date().toLocaleDateString('ar-SA');
+  save();
+  setTimeout(()=>{renderTestPane();toast('✉️ تم فتح Gmail لإرسال رابط الاختبار');},400);
+}
+
+function showExamResult(area,c,r){
+  const col=r.score>=60?'var(--green)':r.score>=40?'var(--orange)':'var(--red)';
+  const lbl=r.score>=60?'ناجح':r.score>=40?'متوسط':'راسب';
+  area.innerHTML=`
+    <div class="exam-result-box">
+      <div style="text-align:center;padding:12px 0 18px">
+        <div style="font-size:52px;font-weight:700;color:${col};line-height:1">${r.score}%</div>
+        <div style="font-size:13px;font-weight:700;color:${col};margin:4px 0 2px">${lbl}</div>
+        <div style="font-size:11px;color:var(--text3)">${r.spec}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px;text-align:center">
+          <div style="font-size:16px;font-weight:700;color:var(--blue-t)">⏱ ${r.time||'—'}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:3px">الوقت المستغرق</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px;text-align:center">
+          <div style="font-size:13px;font-weight:700">${r.date||'—'}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:3px">📅 التاريخ</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px;line-height:1.8">${r.verdict||''}</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+//   EMAIL PANE
+// ══════════════════════════════════════════
+function renderEmailPane(){
+  const c=cands.find(x=>x.id===selId);if(!c)return;
+  const area=document.getElementById('pane-email');
+  const exRes=exResults.find(r=>r.candidateId===c.id||(r.name===c.name&&c.examSent));
+  const{total}=calcScore(c);
+  const testLine=exRes?`\n• نتيجة الاختبار: ${exRes.score}% (${exRes.spec})`:'';
+  const hasEmail=!!c.email;
+  const noEmailWarn=hasEmail?'':
+    `<div style="background:var(--orange-bg);border:1px solid rgba(180,83,9,.2);border-radius:var(--r);padding:9px 12px;font-size:11px;color:var(--orange-t);margin-bottom:12px">⚠️ لا يوجد إيميل مسجل — أضفه في بيانات المرشح</div>`;
+  const today=new Date().toISOString().split('T')[0];
+  area.innerHTML=`
+    ${noEmailWarn}
+    <div class="email-section">
+      <div class="email-section-title" style="color:var(--blue-t)">
+        <span style="font-size:16px">📅</span> دعوة المقابلة
+      </div>
+      <div class="interview-picker">
+        <div class="ip-title">📋 حدد موعد المقابلة</div>
+        <div class="ip-row">
+          <div class="ip-field"><label>تاريخ المقابلة</label><input type="date" id="iv-date" min="${today}" value="${today}" oninput="refreshInterviewEmail()"></div>
+          <div class="ip-field"><label>الوقت</label><input type="time" id="iv-time" value="10:00" oninput="refreshInterviewEmail()"></div>
+        </div>
+        <div class="ip-row">
+          <div class="ip-field"><label>طريقة المقابلة</label>
+            <select id="iv-type" onchange="refreshInterviewEmail()">
+              <option value="حضورية">حضورية</option>
+              <option value="عن بُعد (Google Meet)">عن بُعد (Google Meet)</option>
+              <option value="عن بُعد (Zoom)">عن بُعد (Zoom)</option>
+              <option value="هاتفية">هاتفية</option>
+            </select>
+          </div>
+          <div class="ip-field"><label>المقابِل</label><input type="text" id="iv-interviewer" placeholder="أحمد المدير" oninput="refreshInterviewEmail()" value="مدير الموارد البشرية"></div>
+        </div>
+        <div class="ip-field" style="margin-top:2px"><label>رابط الاجتماع / الموقع (اختياري)</label><input type="text" id="iv-link" placeholder="meet.google.com/xxx أو عنوان المكتب" oninput="refreshInterviewEmail()"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px">📬 إلى: ${c.email||'—'}</div>
+      <div class="email-preview" id="iv-preview">...</div>
+      <a id="iv-gmail-btn" class="gmail-btn" style="background:#ea4335;color:white;${hasEmail?'':'opacity:.5;pointer-events:none'}" href="#" target="_blank" onclick="openGmail('interview')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        إرسال دعوة المقابلة عبر Gmail
+      </a>
+    </div>
+    <div class="email-section">
+      <div class="email-section-title" style="color:var(--green-t)">
+        <span style="font-size:16px">✉️</span> العرض الوظيفي
+        <span class="badge b-green" style="margin-right:auto;font-size:9px">بعد الموافقة</span>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px">📬 إلى: ${c.email||'—'}</div>
+      <div class="email-preview">${buildOfferEmail(c,total,testLine)}</div>
+      <a class="gmail-btn" style="background:#057a55;color:white;${hasEmail?'':'opacity:.5;pointer-events:none'}" href="${buildGmailLink(c.email,buildOfferSubject(c),buildOfferEmail(c,total,testLine))}" target="_blank" onclick="toast('تم فتح Gmail')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        إرسال العرض الوظيفي عبر Gmail
+      </a>
+    </div>
+    <div class="email-section">
+      <div class="email-section-title" style="color:var(--purple-t)">
+        <span style="font-size:16px">📋</span> طلب مستندات التعيين
+        <span class="badge b-purple" style="margin-right:auto;font-size:9px">بعد التعيين الرسمي</span>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px">📬 إلى: ${c.email||'—'}</div>
+      <div class="email-preview">${buildOnboardEmail(c)}</div>
+      <a class="gmail-btn" style="background:#6c2bd9;color:white;${hasEmail?'':'opacity:.5;pointer-events:none'}" href="${buildGmailLink(c.email,buildOnboardSubject(c),buildOnboardEmail(c))}" target="_blank" onclick="toast('تم فتح Gmail')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        إرسال طلب المستندات عبر Gmail
+      </a>
+    </div>`;
+  refreshInterviewEmail();
+}
+
+function refreshInterviewEmail(){
+  const c=cands.find(x=>x.id===selId);if(!c)return;
+  const date=document.getElementById('iv-date')?.value||'';
+  const time=document.getElementById('iv-time')?.value||'';
+  const type=document.getElementById('iv-type')?.value||'حضورية';
+  const interviewer=document.getElementById('iv-interviewer')?.value||'مدير الموارد البشرية';
+  const link=document.getElementById('iv-link')?.value||'';
+  const body=buildInterviewEmail(c,date,time,type,interviewer,link);
+  const prev=document.getElementById('iv-preview');
+  if(prev)prev.textContent=body;
+  const btn=document.getElementById('iv-gmail-btn');
+  if(btn&&c.email){btn.href=buildGmailLink(c.email,buildInterviewSubject(c),body);btn.onclick=()=>{toast('تم فتح Gmail');return true;};}
+}
+
+function openGmail(type){
+  const c=cands.find(x=>x.id===selId);if(!c||!c.email){toast('لا يوجد إيميل');return false;}
+  const date=document.getElementById('iv-date')?.value||'';
+  const time=document.getElementById('iv-time')?.value||'';
+  const ivType=document.getElementById('iv-type')?.value||'حضورية';
+  const interviewer=document.getElementById('iv-interviewer')?.value||'مدير الموارد البشرية';
+  const link=document.getElementById('iv-link')?.value||'';
+  const body=buildInterviewEmail(c,date,time,ivType,interviewer,link);
+  window.open(buildGmailLink(c.email,buildInterviewSubject(c),body),'_blank');
+  toast('تم فتح Gmail ✉️');return false;
+}
+
+function buildGmailLink(to,subject,body){return`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to||'')}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;}
+function buildInterviewSubject(c){return`دعوة لمقابلة وظيفة ${c.role} | مؤسسة Luxury KSA`;}
+function buildInterviewEmail(c,date,time,type,interviewer,link){
+  const dateAr=date?fmtDate(date):'(حدد التاريخ)';
+  const timeStr=time?formatTime(time):'(حدد الوقت)';
+  return`السلام عليكم ورحمة الله وبركاته،\n\nالأستاذ/الأستاذة: ${c.name}\n\nيسعدنا إبلاغكم بأنه بعد مراجعة طلبكم للوظيفة التالية:\n\nالمسمى الوظيفي: ${c.role}\n\nتقرر دعوتكم لإجراء مقابلة وظيفية وفق التفاصيل التالية:\n\n📅 تاريخ المقابلة: ${dateAr}\n⏰ الوقت: ${timeStr}\n📍 طريقة المقابلة: ${type}${link?`\n🔗 الرابط/الموقع: ${link}`:''}\n👤 المقابِل: ${interviewer}\n\nنأمل منكم التكرم بتأكيد حضوركم من خلال الرد على هذا البريد الإلكتروني.\n\nوفي حال وجود أي استفسار، لا تترددوا في التواصل معنا.\n\nمع أطيب التحيات،\nإدارة الموارد البشرية\n📧 hr@luxuryksa.com`;
+}
+function buildOfferSubject(c){return`عرض وظيفي — ${c.role} | مؤسسة Luxury KSA`;}
+function buildOfferEmail(c,total,testLine){
+  return`السلام عليكم ورحمة الله وبركاته،\n\nيسعدنا إبلاغكم بقبولكم لشغل إحدى الوظائف لدينا.\n\n📋 تفاصيل العرض الوظيفي:\n• طبيعة العمل: دوام كامل\n• مكان العمل: الرياض، المملكة العربية السعودية\n\nنأمل منكم التكرم بالرد بالموافقة أو الاعتذار خلال مدة أقصاها 5 أيام عمل من تاريخ استلام هذا البريد.\n\nوفي حال وجود أي استفسار، لا تترددوا في التواصل معنا.\n\nمع أطيب التحيات،\nإدارة الموارد البشرية\n📧 hr@luxuryksa.com`;
+}
+function buildOnboardSubject(c){return`مستندات التعيين المطلوبة — ${c.role} | مؤسسة Luxury KSA`;}
+function buildOnboardEmail(c){
+  return`السلام عليكم ورحمة الله وبركاته،\n\nنهنئكم بانضمامكم إلى فريقنا، ونتطلع للعمل معكم.\n\nلإتمام إجراءات التعيين، نأمل تزويدنا بالبيانات والمستندات التالية:\n\n📄 المستندات المطلوبة:\n1. صورة من الهوية الوطنية (سارية المفعول)\n2. صورة من المؤهل العلمي الأخير\n3. شهادات الخبرة السابقة (إن وجدت)\n4. صورة شخصية بخلفية بيضاء\n\n💳 معلومات الحساب البنكي (الآيبان):\n• رقم الآيبان: SA__ ____ ____ ____ ____\n• اسم البنك:\n• اسم صاحب الحساب كما هو مسجل في البنك:\n\n📋 معلومات إضافية:\n• رقم الجوال للتواصل الرسمي:\n• عنوان السكن الحالي:\n• اسم شخص للتواصل في حالات الطوارئ:\n• رقم جوال الطارئ:\n\nنأمل إرسال المطلوب خلال مدة أقصاها 3 أيام عمل.\n\nوفي حال وجود أي استفسار، لا تترددوا في التواصل معنا.\n\nمع أطيب التحيات،\nإدارة الموارد البشرية\n📧 hr@luxuryksa.com`;
+}
+function formatTime(t){
+  if(!t)return'';
+  const[h,m]=t.split(':').map(Number);
+  const ampm=h>=12?'م':'ص';
+  const hr=h>12?h-12:h===0?12:h;
+  return`${hr}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+// ══ ADD MODAL ══
+function openModal(){document.getElementById('modal').classList.add('open');updatePreview();}
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  ['f-name','f-role','f-email','f-phone','f-exp','f-skills','f-spec-text','f-salary','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-edu').value='';document.getElementById('f-spec').value='100';document.getElementById('f-stage').value='0';
+}
+function updatePreview(){
+  const mock={edu:document.getElementById('f-edu').value,exp:document.getElementById('f-exp').value,skills:document.getElementById('f-skills').value,spec:document.getElementById('f-spec').value};
+  const{total,details}=calcScore(mock);
+  document.getElementById('pv-rows').innerHTML=details.map(d=>`<div class="pv-row"><span style="color:var(--text2)">${d.label} (${d.w}%)</span><span style="font-weight:700;color:${sc(d.raw)}">${d.raw}/100 = ${d.contrib}نقطة</span></div>`).join('');
+  document.getElementById('pv-bar-fill').style.cssText=`width:${total}%;background:${sc(total)}`;
+  document.getElementById('pv-total').textContent=total+'%';document.getElementById('pv-total').style.color=sc(total);
+}
+function addCandidate(){
+  const name=document.getElementById('f-name').value.trim(),role=document.getElementById('f-role').value.trim();
+  if(!name||!role){toast('الاسم والوظيفة مطلوبان');return;}
+  const c={
+    id:Date.now().toString(),ts:Date.now(),
+    name,role,
+    email:document.getElementById('f-email').value.trim(),
+    phone:document.getElementById('f-phone').value.trim(),
+    exp:document.getElementById('f-exp').value.trim(),
+    edu:document.getElementById('f-edu').value,
+    skills:document.getElementById('f-skills').value.trim(),
+    specText:document.getElementById('f-spec-text').value.trim(),
+    spec:document.getElementById('f-spec').value,
+    stage:parseInt(document.getElementById('f-stage').value),
+    salary:document.getElementById('f-salary').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+  };
+  cands.unshift(c);save();closeModal();renderKanban();renderDash();
+  const{total}=calcScore(c);toast(`✓ أُضيف ${name} — التطابق: ${total}%`);
+}
+
+// ══ UTILS ══
+function exportCSV(){
+  if(!cands.length){toast('لا توجد بيانات');return;}
+  const h=['الاسم','الوظيفة','البريد','الجوال','المؤهل','الخبرة','التخصص','المهارات','نسبة التطابق%','نتيجة الاختبار HR%','نتيجة اختبار المرشح%','المرحلة','الراتب','الملاحظات'];
+  const rows=cands.map(c=>{
+    const{total}=calcScore(c);
+    const td=tests[c.id];
+    const exRes=exResults.find(r=>r.name===c.name);
+    return[c.name,c.role,c.email,c.phone,c.edu,c.exp,c.specText,c.skills,total,td?.submitted?td.score:'',exRes?exRes.score:'',STAGES[c.stage],c.salary,c.notes].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`)
+  });
+  const csv='\uFEFF'+[h,...rows].map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`candidates-${new Date().toISOString().slice(0,10)}.csv`;a.click();toast('تم التصدير');
+}
+function confirmReset(){
+  if(!cands.length){toast('لا توجد بيانات');return;}
+  if(confirm('حذف جميع بيانات المرشحين نهائياً؟')){cands=[];tests={};selId=null;save();saveTests();renderDash();renderKanban();toast('تم المسح');}
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+
+function exExportCSV(){
+  if(!exResults.length){toast('لا توجد نتائج للتصدير');return;}
+  const h='الاسم,التخصص,النتيجة (%),الصواب,الإجمالي,الحالة,الحكم,المحاور,التاريخ,الوقت المستغرق';
+  const rows=exResults.map(r=>[`"${r.name}"`,`"${r.spec}"`,r.score,r.correct,r.total,`"${r.status}"`,`"${r.verdict}"`,`"${r.cats||''}"`,`"${r.date}"`,`"${r.time||''}"`].join(','));
+  const csv='\uFEFF'+[h,...rows].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='نتائج_الاختبارات_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  toast('تم تصدير النتائج ✓');
+}
+
+function exClearAll(){
+  if(!exResults.length){toast('لا توجد نتائج');return;}
+  if(!confirm('هل أنت متأكد من مسح جميع نتائج الاختبارات؟'))return;
+  exResults=[];exSave();updateExamBadge();
+  renderDash();
+  if(document.getElementById('s-examres').classList.contains('on'))renderExamResults();
+  toast('تم مسح جميع النتائج');
+}
+
+
+// ══ EXAM RESULTS FILTER STATE ══
+let exFilter='all', exSort='new';
+
+function setExF(f){
+  exFilter=f;
+  ['all','mmt','jyd','mbl','daf'].forEach(k=>{
+    const el=document.getElementById('exf-'+k);
+    if(el) el.classList.toggle('on', k===f);
+  });
+  renderExamResults();
+}
+function setExS(s){
+  exSort=s;
+  ['new','high','low'].forEach(k=>{
+    const el=document.getElementById('exs-'+k);
+    if(el) el.classList.toggle('on', k===s);
+  });
+  renderExamResults();
+}
+function getGrade(score){
+  if(score>=80) return {label:'ممتاز',cls:'b-green',icon:'⭐'};
+  if(score>=60) return {label:'جيد',cls:'b-blue',icon:'✅'};
+  if(score>=40) return {label:'مقبول',cls:'b-orange',icon:'🟡'};
+  return {label:'ضعيف',cls:'b-gray',icon:'🔴'};
+}
+
+function renderExamResults(){
+  const area=document.getElementById('examres-body');
+  if(!area)return;
+  if(!exResults.length){
+    area.innerHTML=`<div class="card" style="text-align:center;padding:3rem">
+      <div style="font-size:40px;margin-bottom:12px">📋</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px">لا توجد نتائج بعد</div>
+      <div style="font-size:12px;color:var(--text3)">أرسل رابط exam.html للمرشح من تبويب الاختبار في بطاقته</div>
+    </div>`;
+    return;
+  }
+
+  let filtered=[...exResults];
+  if(exFilter==='mmt') filtered=filtered.filter(r=>r.score>=80);
+  else if(exFilter==='jyd') filtered=filtered.filter(r=>r.score>=60&&r.score<80);
+  else if(exFilter==='mbl') filtered=filtered.filter(r=>r.score>=40&&r.score<60);
+  else if(exFilter==='daf') filtered=filtered.filter(r=>r.score<40);
+
+  if(exSort==='high') filtered.sort((a,b)=>b.score-a.score);
+  else if(exSort==='low') filtered.sort((a,b)=>a.score-b.score);
+  else filtered.reverse();
+
+  const avg=Math.round(exResults.reduce((s,r)=>s+r.score,0)/exResults.length);
+
+  area.innerHTML=`
+    <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+      <div class="metric"><div class="m-lbl">إجمالي الاختبارات</div><div class="m-val">${exResults.length}</div><div class="m-change up">مرشح أجرى الاختبار</div></div>
+      <div class="metric"><div class="m-lbl">⭐ ممتاز</div><div class="m-val" style="color:var(--green)">${exResults.filter(r=>r.score>=80).length}</div><div class="m-change up">80% فأكثر</div></div>
+      <div class="metric"><div class="m-lbl">✅ جيد</div><div class="m-val" style="color:var(--blue)">${exResults.filter(r=>r.score>=60&&r.score<80).length}</div><div class="m-change up">60 – 79%</div></div>
+      <div class="metric"><div class="m-lbl">متوسط النتائج</div><div class="m-val">${avg}%</div><div class="m-change up">المعدل العام</div></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">سجل الاختبارات ${exFilter!=='all'?`<span class="badge b-blue" style="font-size:10px;margin-right:6px">${filtered.length} نتيجة</span>`:''}</div>
+      </div>
+      ${filtered.length===0?`<div style="text-align:center;padding:2rem;color:var(--text3);font-size:13px">لا توجد نتائج تطابق هذا الفلتر</div>`:`
+      <div style="overflow-x:auto">
+      <table class="d-table">
+        <thead><tr>
+          <th>الاسم</th><th>التخصص</th><th>النتيجة</th>
+          <th>التقدير</th><th>المحاور</th><th>التاريخ</th><th>⏱ الوقت</th>
+        </tr></thead>
+        <tbody>
+        ${filtered.map(r=>{
+          const g=getGrade(r.score);
+          const col=r.score>=80?'var(--green)':r.score>=60?'var(--blue)':r.score>=40?'var(--orange)':'var(--red)';
+          return '<tr>'
+            +'<td><b>'+r.name+'</b></td>'
+            +'<td style="font-size:12px;color:var(--text2)">'+r.spec+'</td>'
+            +'<td><b style="color:'+col+';font-size:15px">'+r.score+'%</b></td>'
+            +'<td><span class="badge '+g.cls+'">'+g.icon+' '+g.label+'</span></td>'
+            +'<td style="font-size:10px;color:var(--text3);max-width:120px;word-break:break-all">'+(r.cats||'—')+'</td>'
+            +'<td style="font-size:11px;color:var(--text3)">'+(r.date||'—')+'</td>'
+            +'<td style="font-size:11px;font-weight:700;color:var(--blue-t)">'+(r.time||'—')+'</td>'
+            +'</tr>';
+        }).join('')}
+        </tbody>
+      </table>
+      </div>`}
+    </div>`;
+}
+
+// ══ SYNC UI ══
+function syncStatus(connected,label){
+  const dot=document.getElementById('sync-dot');
+  const lbl=document.getElementById('sync-label');
+  if(!dot||!lbl)return;
+  dot.style.background=connected?'var(--green)':'var(--text3)';
+  lbl.textContent=label;
+}
+function openSetup(){
+  document.getElementById('setup-key').value=JBIN_KEY;
+  document.getElementById('setup-bin').value=JBIN_BIN;
+  document.getElementById('setup-status').textContent='';
+  document.getElementById('setup-modal').classList.add('open');
+}
+async function setupTest(){
+  const key=document.getElementById('setup-key').value.trim();
+  const bin=document.getElementById('setup-bin').value.trim();
+  const st=document.getElementById('setup-status');
+  st.textContent='جاري الاختبار...';st.style.color='var(--text3)';
+  try{
+    const r=await fetch(`${JBIN_BASE}/${bin}/latest`,{headers:{'X-Master-Key':key}});
+    if(r.ok){st.textContent='✅ الاتصال ناجح!';st.style.color='var(--green-t)';}
+    else{st.textContent='❌ خطأ — تحقق من الـ Key والـ Bin ID';st.style.color='var(--red-t)';}
+  }catch(e){st.textContent='❌ خطأ في الشبكة';st.style.color='var(--red-t)';}
+}
+async function setupSave(){
+  const key=document.getElementById('setup-key').value.trim();
+  const bin=document.getElementById('setup-bin').value.trim();
+  if(!key||!bin){document.getElementById('setup-status').textContent='⚠️ أدخل الـ Key والـ Bin ID';return;}
+  JBIN_KEY=key;JBIN_BIN=bin;
+  localStorage.setItem('hr_jbin_key',key);
+  localStorage.setItem('hr_jbin_bin',bin);
+  document.getElementById('setup-modal').classList.remove('open');
+  syncStatus(false,'جاري المزامنة...');
+  await syncFromCloud();
+}
+
+async function syncFromCloud(){
+  if(!JBIN_KEY||!JBIN_BIN){syncStatus(false,'غير متصل — إعداد المزامنة');return;}
+  syncStatus(false,'جاري المزامنة...');
+  const data=await cloudLoad();
+  if(data){
+    if(Array.isArray(data.cands)){cands=data.cands;localStorage.setItem('hr5_cands',JSON.stringify(cands));}
+    if(data.tests&&typeof data.tests==='object'){tests=data.tests;localStorage.setItem('hr5_tests',JSON.stringify(tests));}
+    if(Array.isArray(data.exResults)){exResults=data.exResults;localStorage.setItem('hr-exam-results',JSON.stringify(exResults));}
+    if(Array.isArray(data.deletedIds)){deletedIds=data.deletedIds;localStorage.setItem('hr5_deleted',JSON.stringify(deletedIds));}
+    renderDash();renderKanban();updateExamBadge();
+    syncStatus(true,'متصل بالسحابة ✓');
+    toast('تمت المزامنة ✓');
+  } else {
+    syncStatus(false,'تعذّرت المزامنة — تحقق من الإعداد');
+  }
+}
+
+// ══ INIT ══
+(function(){
+  if(JBIN_KEY&&JBIN_BIN){
+    syncStatus(false,'جاري المزامنة...');
+    syncFromCloud();
+  } else {
+    syncStatus(false,'غير متصل — إعداد المزامنة');
+  }
+  renderDash();renderKanban();updateExamBadge();
+
+  // Auto-poll every 20s for new exam results from candidates
+  setInterval(async()=>{
+    if(!JBIN_KEY||!JBIN_BIN)return;
+    const data=await cloudLoad();
+    if(!data)return;
+    let changed=false;
+    if(Array.isArray(data.exResults)&&data.exResults.length!==exResults.length){
+      exResults=data.exResults;
+      localStorage.setItem('hr-exam-results',JSON.stringify(exResults));
+      changed=true;
+    }
+    if(Array.isArray(data.cands)&&JSON.stringify(data.cands)!==JSON.stringify(cands)){
+      cands=data.cands;
+      localStorage.setItem('hr5_cands',JSON.stringify(cands));
+      changed=true;
+    }
+    if(changed){
+      renderDash();renderKanban();updateExamBadge();
+      if(document.getElementById('s-examres').classList.contains('on'))renderExamResults();
+      toast('📩 نتيجة جديدة وصلت من مرشح!');
+      syncStatus(true,'متصل بالسحابة ✓');
+    }
+  },20000);
+})();
+
+// ══ MANAGER NAME ══
+function loadManagerName(){
+  const saved = localStorage.getItem('hr_manager_name') || 'مدير الموارد البشرية';
+  document.getElementById('display-name').textContent = saved;
+  const initials = saved.trim().split(' ').slice(0,2).map(p=>p[0]||'').join('') || 'م';
+  document.getElementById('user-av-initials').textContent = initials;
+  // sync to interview input default
+  const ivInput = document.getElementById('iv-interviewer');
+  if(ivInput && !ivInput._userEdited) ivInput.value = saved;
+}
+function startEditName(){
+  const wrap = document.querySelector('.user-name-wrap');
+  const current = document.getElementById('display-name').textContent;
+  wrap.innerHTML = `<input class="name-input" id="name-edit-inp" value="${current}" maxlength="30"
+    onblur="saveEditName()" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){loadManagerName();renderNameWrap();}">`;
+  document.getElementById('name-edit-inp').focus();
+  document.getElementById('name-edit-inp').select();
+}
+function renderNameWrap(){
+  const wrap = document.querySelector('.user-name-wrap');
+  wrap.innerHTML = `<div class="user-name" id="display-name"></div><span class="edit-icon">✏️</span>`;
+  loadManagerName();
+}
+function saveEditName(){
+  const inp = document.getElementById('name-edit-inp');
+  if(!inp) return;
+  const val = inp.value.trim() || 'مدير الموارد البشرية';
+  localStorage.setItem('hr_manager_name', val);
+  renderNameWrap();
+}
+
+// ══ DARK MODE ══
+function toggleDark(){
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('hr_dark', isDark ? '1' : '0');
+  document.getElementById('dark-toggle-btn').textContent = isDark ? '☀️' : '🌙';
+}
+function initDark(){
+  if(localStorage.getItem('hr_dark')==='1'){
+    document.documentElement.classList.add('dark');
+    const btn = document.getElementById('dark-toggle-btn');
+    if(btn) btn.textContent = '☀️';
+  }
+}
+
+// ══ APPLICANTS SCREEN (stage 0) ══
+function updateApplicantsBadge(){
+  const n=cands.filter(c=>c.stage===0).length;
+  const el=document.getElementById('badge-applicants');
+  if(el){el.textContent=n;el.style.display=n?'inline':'none';}
+  const el2=document.getElementById('badge-app-count');
+  if(el2){el2.textContent=n;el2.style.display=n?'inline':'none';}
+}
+
+function renderApplicants(){
+  const area=document.getElementById('applicants-body');
+  if(!area)return;
+  const q=(document.getElementById('app-search')?.value||'').trim().toLowerCase();
+  const list=cands.filter(c=>c.stage===0&&(!q||c.name.toLowerCase().includes(q)||c.role.toLowerCase().includes(q)));
+
+  if(!cands.filter(c=>c.stage===0).length){
+    area.innerHTML=`<div class="card" style="text-align:center;padding:3rem">
+      <div style="font-size:40px;margin-bottom:12px">📋</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px">لا توجد طلبات جديدة</div>
+      <div style="font-size:12px;color:var(--text3)">ستظهر هنا الطلبات القادمة من استبيان التقدم أو الإضافة اليدوية</div>
+    </div>`;
+    return;
+  }
+
+  area.innerHTML=`
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:14px;font-weight:700">طلبات التقدم الواردة</div>
+      <span class="badge b-orange">${list.length} طلب</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="d-table" style="margin:0">
+      <thead><tr>
+        <th>الاسم</th><th>الوظيفة</th><th>الإيميل</th><th>الجوال</th><th>CV</th>
+        <th>المؤهل</th><th>الخبرة</th><th>التطابق</th><th>تاريخ التقدم</th><th>الإجراء</th>
+      </tr></thead>
+      <tbody>
+      ${list.length===0?`<tr><td colspan="10" style="text-align:center;color:var(--text3);padding:24px">لا نتائج</td></tr>`:''}
+      ${list.map(c=>{
+        const {total}=calcScore(c);
+        const col=total>=80?'var(--green)':total>=60?'var(--blue)':total>=40?'var(--orange)':'var(--red)';
+        return `<tr>
+          <td><b>${c.name}</b>${c.source==='استبيان'?'<span class="badge b-blue" style="font-size:9px;margin-right:5px">استبيان</span>':''}</td>
+          <td style="color:var(--text2);font-size:12px">${c.role}</td>
+          <td style="font-size:11px;color:var(--text3)">${c.email||'—'}</td>
+          <td style="font-size:11px;color:var(--text3)">${c.phone||'—'}</td>
+          <td>${c.cvLink?`<a href="${c.cvLink}" target="_blank" style="font-size:11px;color:var(--blue);font-weight:600">📄 CV ↗</a>`:'—'}</td>
+          <td style="font-size:12px">${c.edu||'—'}</td>
+          <td style="font-size:12px">${c.exp?c.exp+' سنة':'—'}</td>
+          <td><b style="color:${col}">${total}%</b></td>
+          <td style="font-size:11px;color:var(--text3)">${ago(c.ts)}</td>
+          <td>
+            <div style="display:flex;gap:6px">
+              <button onclick="promoteToCandidate('${c.id}')" style="padding:5px 12px;border-radius:var(--r);background:var(--blue);color:#fff;border:none;font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">نقل للمتقدمين ←</button>
+              <button onclick="rejectApplicant('${c.id}')" style="padding:5px 10px;border-radius:var(--r);background:var(--red-bg);color:var(--red-t);border:none;font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer">✕</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('')}
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+}
+
+function promoteToCandidate(id){
+  const c=cands.find(x=>x.id===id);if(!c)return;
+  c.stage=1;
+  save();renderApplicants();updateApplicantsBadge();renderDash();
+  document.getElementById('badge-cands').textContent=cands.filter(c=>c.stage>=1).length;
+  toast(`✅ نُقل ${c.name} → التواصل قبل المقابلة`);
+}
+
+function rejectApplicant(id){
+  const c=cands.find(x=>x.id===id);if(!c)return;
+  if(!confirm(`حذف طلب "${c.name}"؟`))return;
+  cands=cands.filter(x=>x.id!==id);
+  save();renderApplicants();updateApplicantsBadge();renderDash();
+  toast('تم الحذف');
+}
+
+
+
+
+
+
+
+
+
+
+
+// ══ CV DOWNLOAD ══
+function downloadCV(id){
+  const c=cands.find(x=>x.id===id);
+  if(!c||!c.cv){toast('لا توجد سيرة ذاتية');return;}
+  const a=document.createElement('a');
+  a.href=c.cv;
+  a.download=c.cvName||'cv';
+  a.click();
+}
+
+// ══ FORM LINK MODAL ══
+function openFormLinkModal(){
+  document.getElementById('form-link-modal').style.display='flex';
+  buildFormLink();
+}
+function closeFormLinkModal(){
+  document.getElementById('form-link-modal').style.display='none';
+}
+function buildFormLink(){
+  const role=(document.getElementById('fl-role')?.value||'').trim();
+  // Build absolute URL — replace filename part only (not query string)
+  const href=window.location.href.split('?')[0];
+  const base=href.substring(0,href.lastIndexOf('/')+1)+'form.html';
+  const p=new URLSearchParams();
+  if(JBIN_KEY) p.set('k',JBIN_KEY);
+  if(JBIN_BIN) p.set('b',JBIN_BIN);
+  if(role) p.set('role',role);
+  const link=base+(p.toString()?'?'+p.toString():'');
+  document.getElementById('fl-link-box').textContent=link;
+  return link;
+}
+function copyFormLink(){
+  const txt=document.getElementById('fl-link-box').textContent;
+  if(!txt||txt==='—'){toast('الرابط غير جاهز');return;}
+  navigator.clipboard.writeText(txt)
+    .then(()=>toast('✅ تم نسخ الرابط'))
+    .catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('✅ تم نسخ الرابط');});
+}
+function openFormDirect(){
+  const link=buildFormLink();
+  if(link) window.open(link,'_blank');
+}
+
+// ══ GOOGLE SHEETS SYNC ══
+const GSHEET_FIELDS = {
+  name:  ['الاسم'],
+  phone: ['رقم الجوال','الجوال','رقم الهاتف'],
+  spec:  ['التخصص'],
+  edu:   ['المؤهل التعليمي','المؤهل العلمي','المؤهل'],
+  role:  ['الوظيفة المراد التقدم له','الوظيفة'],
+  exp:   ['سنوات الخبرة','الخبرة'],
+  cv:    ['رابط السيرة الذاتية','السيرة الذاتية'],
+  email: ['البريد الإلكتروني','اكتب: البريد الإلكتروني','البريد','Email','email','الإيميل'],
+  city:  ['المدينة','المدينة/المنطقة'],
+  notes: ['ملاحظات','Notes'],
+};
+
+function getSheetId(){
+  return localStorage.getItem('hr_gsheet_id')||'1afCe3Cs2fZ6zO1q069ddGyJJzX8RYyNeudz6AsI6Yb0';
+}
+function saveSheetId(){
+  const raw=(document.getElementById('gsheet-id-input')?.value||'').trim();
+  let id=raw;
+  const m=raw.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) id=m[1];
+  if(!id){toast('أدخل رابط أو ID الـ Sheet');return;}
+  localStorage.setItem('hr_gsheet_id',id);
+  toast('✅ تم حفظ الـ Sheet ID');
+  syncFromGoogleSheet(true);
+}
+
+function normalizeAr(s){
+  return (s||'').replace(/[\r\n\t]/g,' ').trim()
+    .replace(/[\u064B-\u065F]/g,'') // remove diacritics
+    .replace(/\s+/g,' ')
+    .replace(/أ|إ|آ|اا/g,'ا')
+    .replace(/ة/g,'ه')
+    .replace(/ى/g,'ي')
+    .toLowerCase();
+}
+function findCol(headers, aliases){
+  if(!aliases) return -1;
+  for(const a of aliases){
+    const na=normalizeAr(a);
+    const i=headers.findIndex(h=>normalizeAr(h).includes(na)||na.includes(normalizeAr(h)&&normalizeAr(h).length>2?normalizeAr(h):'__NOMATCH__'));
+    if(i>=0) return i;
+  }
+  return -1;
+}
+
+async function syncFromGoogleSheet(showToast=true){
+  const btn=document.getElementById('gsheet-sync-btn');
+  if(btn){btn.textContent='⏳ جاري الجلب...';btn.disabled=true;}
+  try{
+    const sheetId='1afCe3Cs2fZ6zO1q069ddGyJJzX8RYyNeudz6AsI6Yb0';
+    const sheetName='Form Responses 1';
+    
+    // Try opensheet.elk.sh (returns JSON, no publish needed)
+    let rows;
+    try{
+      const opRes=await fetch(`https://opensheet.elk.sh/${sheetId}/${encodeURIComponent(sheetName)}`);
+      if(opRes.ok){
+        const jsonData=await opRes.json();
+        if(Array.isArray(jsonData)&&jsonData.length>0){
+          // Convert JSON to rows format [{col:val,...}] → [headers, ...values]
+          const headers=Object.keys(jsonData[0]);
+          const dataRows2=jsonData.map(r=>headers.map(h=>r[h]||''));
+          rows=[headers,...dataRows2];
+          console.log('opensheet OK, cols:',headers);
+        }
+      }
+    }catch(e){ console.log('opensheet failed:',e.message); }
+    
+    // Fallback to CSV if opensheet failed
+    if(!rows){
+      const pubUrl='https://docs.google.com/spreadsheets/d/e/2PACX-1vRfQZehgA953HSSechGKAUkLjEn08jPZ-k67yJpeZjsV8fGUlCsVQvgqKSiHWnVwpOW8GEL0F0Pc8UT/pub?gid=1603455552&single=true&output=csv';
+      let res;
+      const attempts=[
+        pubUrl,
+        'https://api.allorigins.win/raw?url='+encodeURIComponent(pubUrl),
+        'https://corsproxy.io/?'+encodeURIComponent(pubUrl),
+      ];
+      for(const url of attempts){
+        try{ res=await fetch(url); if(res.ok) break; }catch(e){}
+      }
+      if(!res||!res.ok) throw new Error('تعذّر الاتصال — تأكد من اتصال الإنترنت');
+      const text=await res.text();
+      rows=parseCSV(text);
+    }
+    if(rows.length<2){
+      if(showToast) toast('✅ لا توجد ردود بعد في الفورم');
+      return;
+    }
+    const headers=rows[0];
+    const dataRows=rows.slice(1).filter(r=>r.some(c=>c.trim()));
+
+    // Debug: log exact column names
+    console.log('Sheet columns:', headers);
+
+    const colName  = findCol(headers, GSHEET_FIELDS.name);
+    const colRole  = findCol(headers, GSHEET_FIELDS.role);
+    const colEmail = findCol(headers, GSHEET_FIELDS.email);
+    const colPhone = findCol(headers, GSHEET_FIELDS.phone);
+    const colEdu   = findCol(headers, GSHEET_FIELDS.edu);
+    const colExp   = findCol(headers, GSHEET_FIELDS.exp);
+    const colSpec  = findCol(headers, GSHEET_FIELDS.spec);
+    const colCV    = findCol(headers, GSHEET_FIELDS.cv);
+    const colNotes = findCol(headers, GSHEET_FIELDS.notes);
+
+    console.log('Mapped cols → name:',colName,'role:',colRole,'email:',colEmail,'phone:',colPhone,'edu:',colEdu,'exp:',colExp,'spec:',colSpec,'cv:',colCV);
+
+    let added=0, skipped=0;
+    dataRows.forEach((row,i)=>{
+      const get=ci=>ci>=0?(row[ci]||'').trim():'';
+      const name=get(colName);
+      if(!name) return;
+      const newEmail=get(colEmail);
+      const newPhone=get(colPhone);
+      const newEdu=get(colEdu);
+      const newRole=get(colRole);
+      const newExp=get(colExp);
+      const newSpec=get(colSpec);
+      const newCV=get(colCV);
+      const colCity=findCol(headers, GSHEET_FIELDS.city||[]);
+      const newCity=get(colCity);
+
+      // Match by name only — update all missing fields
+      // Skip if was previously deleted
+      const wasDeleted=deletedIds.some(d=>d.name===name);
+      if(wasDeleted){skipped++;return;}
+      const dupIdx=cands.findIndex(c=>c.name===name);
+      if(dupIdx>=0){
+        const d=cands[dupIdx];
+        let updated=false;
+        if(newEmail&&!d.email){d.email=newEmail;updated=true;}
+        if(newPhone&&!d.phone){d.phone=newPhone;updated=true;}
+        if(newEdu&&!d.edu){d.edu=newEdu;updated=true;}
+        if(newRole&&!d.role){d.role=newRole;updated=true;}
+        if(newExp&&!d.exp){d.exp=newExp;updated=true;}
+        if(newSpec&&!d.specText){d.specText=newSpec;d.spec=newSpec;updated=true;}
+        if(newCV&&!d.cvLink){d.cvLink=newCV;updated=true;}
+        if(newCity&&!d.city){d.city=newCity;updated=true;}
+        if(updated){added++;} else {skipped++;}
+        return;
+      }
+      cands.push({
+        id:'gs_'+(Date.now()+i).toString(),
+        ts:Date.now()-i*1000,
+        name, role:newRole, email:newEmail, phone:newPhone,
+        edu:newEdu, exp:newExp,
+        specText:newSpec, spec:newSpec,
+        cvLink:newCV, city:newCity,
+        notes:get(colNotes),
+        skills:'', salary:'',
+        stage:0, source:'Google Form',
+        added:new Date().toLocaleDateString('ar-SA'),
+      });
+      added++;
+    });
+
+    save();
+    renderApplicants(); renderDash(); updateApplicantsBadge();
+    document.getElementById('badge-cands').textContent=cands.filter(c=>c.stage>=1).length;
+    const errBox=document.getElementById('sync-error-box');
+    if(errBox) errBox.style.display='none';
+    const lbl=document.getElementById('last-sync-lbl');
+    if(lbl) lbl.textContent='آخر مزامنة: '+new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+    if(showToast||added>0) toast(`✅ ${added>0?added+' مرشح جديد':'لا يوجد جديد'}`);
+  }catch(e){
+    if(showToast) toast('❌ '+e.message);
+    const errBox=document.getElementById('sync-error-box');
+    if(errBox) errBox.style.display='block';
+  }finally{
+    if(btn){btn.textContent='📊 مزامنة Google';btn.disabled=false;}
+  }
+}
+
+// CSV parser — handles multi-line quoted fields and BOM
+function parseCSV(text){
+  // Remove BOM if present
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  const rows=[];
+  let cur='',inQ=false,cols=[];
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){
+      if(inQ&&text[i+1]==='"'){cur+='"';i++;}
+      else inQ=!inQ;
+    } else if(ch===','&&!inQ){
+      cols.push(cur.trim());cur='';
+    } else if((ch==='\n'||ch==='\r')&&!inQ){
+      if(ch==='\r'&&text[i+1]==='\n')i++;
+      if(cur.trim()||cols.length){cols.push(cur.trim());rows.push(cols);cols=[];cur='';}
+    } else {
+      // Replace newlines inside quotes with space
+      cur+=(inQ&&(ch==='\n'||ch==='\r'))?' ':ch;
+    }
+  }
+  if(cur.trim()||cols.length){cols.push(cur.trim());rows.push(cols);}
+  return rows;
+}
+
+// Load saved Sheet ID on init
+(function initSheetId(){
+  // No auto-sync on load — manual only to avoid restoring deleted candidates
+})();
+
+function resetSheetId(){
+  localStorage.removeItem('hr_gsheet_id');
+  location.reload();
+}
+
+// ══ UPDATE CANDIDATE EMAIL ══
+function updateCandEmail(id, email){
+  const c=cands.find(x=>x.id===id);
+  if(!c) return;
+  c.email=email.trim();
+  save();
+  toast('✅ تم حفظ الإيميل');
+  renderDetail();
+}
+
+// ══ CSV IMPORT FROM FILE ══
+function importCSVFile(input){
+  const file=input.files[0];
+  if(!file){return;}
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const text=e.target.result;
+      const rows=parseCSV(text);
+      if(rows.length<2){toast('الملف فارغ أو غير صحيح');return;}
+      
+      const headers=rows[0];
+      console.log('CSV headers:',headers);
+      
+      const colName  = findCol(headers, GSHEET_FIELDS.name);
+      const colRole  = findCol(headers, GSHEET_FIELDS.role);
+      const colEmail = findCol(headers, GSHEET_FIELDS.email);
+      const colPhone = findCol(headers, GSHEET_FIELDS.phone);
+      const colEdu   = findCol(headers, GSHEET_FIELDS.edu);
+      const colExp   = findCol(headers, GSHEET_FIELDS.exp);
+      const colSpec  = findCol(headers, GSHEET_FIELDS.spec);
+      const colCV    = findCol(headers, GSHEET_FIELDS.cv);
+      const colCity  = findCol(headers, GSHEET_FIELDS.city||[]);
+      const colNotes = findCol(headers, GSHEET_FIELDS.notes);
+
+      console.log('Cols → name:',colName,'email:',colEmail,'phone:',colPhone,'edu:',colEdu,'exp:',colExp,'spec:',colSpec,'cv:',colCV);
+
+      let added=0, updated=0, skipped=0;
+      const dataRows=rows.slice(1).filter(r=>r.some(c=>c.trim()));
+      
+      dataRows.forEach((row,i)=>{
+        const get=ci=>ci>=0?(row[ci]||'').trim():'';
+        const name=get(colName);
+        if(!name)return;
+        
+        const email=get(colEmail);
+        const phone=get(colPhone);
+        const edu=get(colEdu);
+        const role=get(colRole);
+        const exp=get(colExp);
+        const spec=get(colSpec);
+        const cv=get(colCV);
+        const city=get(colCity);
+        const notes=get(colNotes);
+
+        // Skip if was previously deleted
+      const wasDeleted=deletedIds.some(d=>d.name===name);
+      if(wasDeleted){skipped++;return;}
+      const dupIdx=cands.findIndex(c=>c.name===name);
+        if(dupIdx>=0){
+          const d=cands[dupIdx];
+          if(email)d.email=email;
+          if(phone)d.phone=phone;
+          if(edu)d.edu=edu;
+          if(role)d.role=role;
+          if(exp)d.exp=exp;
+          if(spec){d.specText=spec;d.spec=spec;}
+          if(cv)d.cvLink=cv;
+          if(city)d.city=city;
+          if(notes)d.notes=notes;
+          updated++;
+          return;
+        }
+        cands.push({
+          id:'gs_'+(Date.now()+i).toString(),
+          ts:Date.now()-i*1000,
+          name,role,email,phone,edu,exp,
+          specText:spec,spec,cvLink:cv,city,notes,
+          skills:'',salary:'',
+          stage:0,source:'Google Form',
+          added:new Date().toLocaleDateString('ar-SA'),
+        });
+        added++;
+      });
+      
+      save();
+      renderApplicants();renderDash();updateApplicantsBadge();
+      document.getElementById('badge-cands').textContent=cands.filter(c=>c.stage>=1).length;
+      toast(`✅ تم الاستيراد — ${added} جديد، ${updated} محدّث`);
+      input.value='';
+    }catch(err){
+      toast('❌ خطأ في قراءة الملف');
+      console.error(err);
+    }
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+// ══ PASSWORD LOCK ══
+const PASS_KEY = 'hr_auth_luxury';
+const CORRECT_PASS = 'Luxury@2025'; // غيّر كلمة المرور هنا
+
+function checkPass(){
+  const val = document.getElementById('lock-pass').value;
+  const err = document.getElementById('lock-err');
+  if(val === CORRECT_PASS){
+    sessionStorage.setItem(PASS_KEY,'1');
+    document.getElementById('lock-screen').style.display='none';
+    err.textContent='';
+  } else {
+    err.textContent='كلمة المرور غير صحيحة';
+    document.getElementById('lock-pass').value='';
+    document.getElementById('lock-pass').focus();
+  }
+}
+
+// Check on load
+(function(){
+  if(sessionStorage.getItem(PASS_KEY)==='1'){
+    document.getElementById('lock-screen').style.display='none';
+  } else {
+    setTimeout(()=>document.getElementById('lock-pass').focus(),200);
+  }
+})();
+</script>
+</body>
+</html>
