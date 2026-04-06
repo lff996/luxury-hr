@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury KSA Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0efeb;
+  --border:rgba(0,0,0,.09);--border2:rgba(0,0,0,.18);
+  --text:#1c1b18;--text2:#6b6a65;--text3:#9c9b96;
+  --blue:#1a56db;--blue-bg:#eff4ff;--blue-t:#1e429f;
+  --green:#057a55;--green-bg:#def7ec;--green-t:#03543f;
+  --orange:#b45309;--orange-bg:#fffbeb;--orange-t:#92400e;
+  --red:#c81e1e;--red-bg:#fdf2f2;--red-t:#9b1c1c;
+  --r:8px;--r2:12px;--font:'IBM Plex Sans Arabic',sans-serif
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 16px}
+.wrap{width:100%;max-width:640px}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;justify-content:center}
+.logo-name{font-size:14px;font-weight:700;color:var(--text)}
+.logo-sub{font-size:11px;color:var(--text3)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:24px;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-family:var(--font);transition:all .14s;white-space:nowrap;width:100%}
+.btn:hover{background:var(--surface2)}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.primary:hover{opacity:.9}
+.btn.primary:disabled{opacity:.45;cursor:not-allowed}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px}
+.b-green{background:var(--green-bg);color:var(--green-t)}
+.b-orange{background:var(--orange-bg);color:var(--orange-t)}
+.b-gray{background:var(--surface2);color:var(--text2)}
+/* info grid */
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.info-item{background:var(--surface2);border-radius:var(--r);padding:12px 8px;text-align:center}
+.info-val{font-size:22px;font-weight:700}
+.info-lbl{font-size:11px;color:var(--text3);margin-top:3px}
+/* timer bar */
+.timer-bar-wrap{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.timer-bar-fill{height:100%;background:var(--blue);border-radius:3px;transition:width 1s linear}
+.timer-bar-fill.warn{background:var(--red)}
+/* timer text */
+.timer-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.timer-num{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.timer-num.warn{color:var(--red)}
+/* progress */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.prog-bar{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
+.prog-lbl{font-size:11px;color:var(--text3);white-space:nowrap}
+/* question */
+.q-cat{font-size:10px;font-weight:700;color:var(--blue-t);background:var(--blue-bg);padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:10px}
+.q-text{font-size:15px;font-weight:600;line-height:1.7;color:var(--text);margin-bottom:18px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .15s;background:var(--surface);font-size:13px;line-height:1.5;user-select:none}
+.opt:hover{background:var(--blue-bg);border-color:rgba(26,86,219,.25)}
+.opt.sel{border-color:var(--blue);background:var(--blue-bg)}
+.opt-ltr{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0;margin-top:1px}
+.opt.sel .opt-ltr{background:var(--blue);border-color:var(--blue);color:#fff}
+/* nav */
+.nav-row{display:flex;gap:10px;margin-top:16px}
+.nav-row .btn{flex:1}
+/* result */
+.score-ring{width:100px;height:100px;border-radius:50%;border:4px solid var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px}
+.score-pct{font-size:30px;font-weight:700;color:var(--blue);line-height:1}
+.score-of{font-size:11px;color:var(--text3);margin-top:2px}
+.verdict{padding:12px 16px;border-radius:var(--r);font-size:13px;font-weight:600;text-align:center;margin-top:14px}
+.verdict.pass{background:var(--green-bg);color:var(--green-t)}
+.verdict.mid{background:var(--orange-bg);color:var(--orange-t)}
+.verdict.fail{background:var(--red-bg);color:var(--red-t)}
+.bk-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.bk-lbl{font-size:12px;color:var(--text2);min-width:120px}
+.bk-bar{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.bk-fill{height:100%;border-radius:3px;background:var(--blue)}
+.bk-val{font-size:11px;font-weight:700;color:var(--blue-t);min-width:32px;text-align:left}
+/* spinner */
+.spinner{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* tag */
+.elapsed-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--blue-t);background:var(--blue-bg);padding:4px 12px;border-radius:20px;margin:6px auto}
+/* error */
+.err-box{background:var(--red-bg);border:1px solid rgba(200,30,30,.15);border-radius:var(--r2);padding:20px;text-align:center}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:var(--font);color:var(--text);background:var(--surface);outline:none;transition:border-color .14s;margin-bottom:4px}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08)}
+label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+
+/* lock overlay */
+.lock-overlay{position:fixed;inset:0;background:rgba(15,15,20,.97);z-index:99999;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:32px}
+.lock-overlay.show{display:flex}
+.lock-icon{font-size:56px;margin-bottom:16px}
+.lock-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.lock-sub{font-size:13px;opacity:.6;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="logo">
+    <div>
+      <div class="logo-name">Luxury KSA</div>
+      <div class="logo-sub">Test</div>
+    </div>
+  </div>
+  <div id="app"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ CONFIG — يُملأ تلقائياً من رابط الاختبار ══
+const urlP = new URLSearchParams(window.location.search);
+const CID      = urlP.get('cid')  || '';
+const CNAME    = urlP.get('cname')|| '';
+const CSPEC    = urlP.get('spec') || '';
+const DURATION = parseInt(urlP.get('dur') || '480'); // ثواني، افتراضي 8 دقائق
+
+// ══ JSONBIN — نفس credentials الـ HR ══
+// يُرسَل في الرابط أو مخزون في localStorage (إذا فُتح على نفس الجهاز)
+const JBIN_KEY = urlP.get('k') || localStorage.getItem('hr_jbin_key') || '';
+const JBIN_BIN = urlP.get('b') || localStorage.getItem('hr_jbin_bin') || '';
+const JBIN_BASE = 'https://api.jsonbin.io/v3/b';
+
+// ══ SPECIALTIES & FALLBACK ══
+const EX_SPECIALTIES=['مطور برمجيات','محاسب مالي','مدير مشاريع','مصمم جرافيك','محلل بيانات','مهندس شبكات','أخصائي موارد بشرية'];
+
+const EX_FALLBACK={
+  'مطور برمجيات':[
+    {q:'ما الفرق بين let وvar في JavaScript؟',opts:['لا فرق بينهما','let له نطاق الكتلة، var له نطاق الدالة','var أحدث من let','let لا يمكن تغيير قيمته'],ans:1,cat:'برمجة'},
+    {q:'ما هو REST API؟',opts:['نوع قاعدة بيانات','أسلوب معماري لبناء خدمات الويب','لغة برمجة','برنامج لإدارة الخوادم'],ans:1,cat:'ويب'},
+    {q:'وظيفة git commit؟',opts:['رفع الكود للسيرفر','حفظ التغييرات محلياً','حذف ملف','دمج فرعين'],ans:1,cat:'أدوات'},
+    {q:'ما Big O notation؟',opts:['نوع لغة','قياس تعقيد الخوارزمية','اختصار شركة','نمط تصميم'],ans:1,cat:'خوارزميات'},
+    {q:'الفرق بين SQL وNoSQL؟',opts:['لا فرق','SQL جداول منظمة، NoSQL بيانات مرنة','NoSQL أقدم','SQL أسرع دائماً'],ans:1,cat:'قواعد بيانات'},
+    {q:'مبدأ Single Responsibility؟',opts:['كل وحدة برمجية لها مسؤولية واحدة فقط','استخدام كلاس واحد','تجنب الحلقات','تقليل المتغيرات'],ans:0,cat:'هندسة'},
+  ],
+  'محاسب مالي':[
+    {q:'المعادلة المحاسبية الأساسية؟',opts:['الإيرادات = المصروفات','الأصول = الخصوم + حقوق الملكية','الربح = الإيرادات - الضرائب','النقد = الأصول - الديون'],ans:1,cat:'أساسيات'},
+    {q:'الفرق بين الميزانية وقائمة الدخل؟',opts:['لا فرق','الميزانية لحظة زمنية، قائمة الدخل فترة','قائمة الدخل أهم','الميزانية للكبار فقط'],ans:1,cat:'قوائم مالية'},
+    {q:'ما الإهلاك؟',opts:['زيادة قيمة الأصل','توزيع تكلفة الأصل على عمره الإنتاجي','ضريبة على الأصول','خسارة في البيع'],ans:1,cat:'أصول'},
+    {q:'مبدأ الاستحقاق؟',opts:['التسجيل عند استلام النقد','الإيراد عند تحققه والمصروف عند تكبده','خاص بالشركات الكبيرة','التسجيل بالعملة الأجنبية'],ans:1,cat:'مبادئ'},
+    {q:'Free Cash Flow؟',opts:['النقد في البنك','التدفق التشغيلي ناقص النفقات الرأسمالية','إجمالي الإيرادات','صافي الربح'],ans:1,cat:'تحليل'},
+    {q:'نسبة السيولة الآنية؟',opts:['الأصول / الخصوم','(الأصول المتداولة - المخزون) / الخصوم المتداولة','صافي الربح / المبيعات','الديون / حقوق الملكية'],ans:1,cat:'نسب'},
+  ],
+  'مدير مشاريع':[
+    {q:'المسار الحرج؟',opts:['المسار الأطول الذي يحدد مدة المشروع','أقصر مسار','قائمة المخاطر','الميزانية'],ans:0,cat:'تخطيط'},
+    {q:'الفرق بين Agile وWaterfall؟',opts:['لا فرق','Agile تكراري، Waterfall خطي','Waterfall أحدث','Agile للكبار فقط'],ans:1,cat:'منهجيات'},
+    {q:'مثلث القيود؟',opts:['الوقت والتكلفة والجودة','الفريق والميزانية والعميل','النطاق والجودة والتواصل','الخطر والوقت والموارد'],ans:0,cat:'أساسيات'},
+    {q:'مؤشر CPI؟',opts:['التكلفة الفعلية / المخططة','القيمة المكتسبة / التكلفة الفعلية','الوقت المستغرق / المخطط','الجودة / التكلفة'],ans:1,cat:'قياس'},
+    {q:'الهدف من سجل المخاطر؟',opts:['تتبع المهام','توثيق المخاطر وخطط الاستجابة','قياس رضا الفريق','حساب الميزانية'],ans:1,cat:'مخاطر'},
+    {q:'اجتماع Stand-up في Scrum؟',opts:['أسبوعي مطول','يومي قصير لمزامنة الفريق','نهاية المشروع','مع العميل'],ans:1,cat:'Scrum'},
+  ],
+  'مصمم جرافيك':[
+    {q:'ما الفرق بين PNG وJPEG؟',opts:['لا فرق','PNG يدعم الشفافية، JPEG لا يدعمها','JPEG أفضل للشعارات','PNG أصغر حجماً دائماً'],ans:1,cat:'صيغ الملفات'},
+    {q:'ما الـ CMYK؟',opts:['نموذج ألوان للشاشات','نموذج ألوان للطباعة','نوع خط','أداة تصميم'],ans:1,cat:'ألوان'},
+    {q:'الفرق بين Vector وRaster؟',opts:['لا فرق','Vector قابل للتكبير بلا جودة، Raster مبني على بكسل','Raster أفضل للطباعة','Vector يستهلك أكثر'],ans:1,cat:'أنواع الرسوم'},
+    {q:'ما التباين في التصميم؟',opts:['تشابه العناصر','التباين بين العناصر لجذب الانتباه','حجم الخط','المسافات بين الكلمات'],ans:1,cat:'مبادئ التصميم'},
+    {q:'أي برنامج يستخدم لتصميم الشعارات؟',opts:['Photoshop','Illustrator','Premiere','InDesign'],ans:1,cat:'أدوات'},
+    {q:'ما الـ DPI؟',opts:['نوع ملف','درجة وضوح الصورة','معيار للألوان','حجم الصورة'],ans:1,cat:'الطباعة'},
+  ],
+  'محلل بيانات':[
+    {q:'ما استخدام GROUP BY في SQL؟',opts:['ترتيب النتائج','تجميع البيانات وتطبيق دوال التجميع','فلترة الصفوف','ضم جداول'],ans:1,cat:'SQL'},
+    {q:'الفرق بين المتوسط والوسيط؟',opts:['لا فرق','المتوسط مجموع القيم ÷ عددها، الوسيط القيمة الوسطى','الوسيط دائماً أكبر','المتوسط للبيانات النصية'],ans:1,cat:'إحصاء'},
+    {q:'ما الـ Outlier؟',opts:['قيمة متكررة','قيمة شاذة بعيدة عن باقي البيانات','بيانات مكررة','قيمة مفقودة'],ans:1,cat:'تنظيف البيانات'},
+    {q:'ما VLOOKUP في Excel؟',opts:['رسم مخططات','البحث عن قيمة وإرجاع قيمة مقابلة','حذف التكرارات','تنسيق الخلايا'],ans:1,cat:'Excel'},
+    {q:'ما الـ Pivot Table؟',opts:['نوع رسم بياني','أداة لتلخيص البيانات','دالة إحصائية','نوع قاعدة بيانات'],ans:1,cat:'تحليل'},
+    {q:'ما الـ A/B Testing؟',opts:['نوع قاعدة بيانات','مقارنة نسختين لاختيار الأفضل','أسلوب تنظيف البيانات','نوع خوارزمية'],ans:1,cat:'اختبارات'},
+  ],
+  'مهندس شبكات':[
+    {q:'ما بروتوكول DHCP؟',opts:['تشفير البيانات','توزيع عناوين IP تلقائياً','إدارة المستخدمين','اتصال VPN'],ans:1,cat:'بروتوكولات'},
+    {q:'الفرق بين TCP وUDP؟',opts:['لا فرق','TCP موثوق ومرتب، UDP سريع بلا ضمان','UDP أقدم','TCP لا يدعم الإنترنت'],ans:1,cat:'نقل البيانات'},
+    {q:'ما الـ Subnet Mask؟',opts:['عنوان IP','قناع يحدد نطاق الشبكة','نوع كابل','جهاز شبكة'],ans:1,cat:'IP وعناوين'},
+    {q:'وظيفة الـ Firewall؟',opts:['تسريع الإنترنت','تصفية حركة المرور وحماية الشبكة','توزيع IP','تخزين البيانات'],ans:1,cat:'أمن الشبكات'},
+    {q:'ما الـ VLAN؟',opts:['نوع كابل','شبكة محلية افتراضية','بروتوكول تشفير','خادم DNS'],ans:1,cat:'تصميم الشبكات'},
+    {q:'ما بروتوكول DNS؟',opts:['تشفير البريد','ترجمة أسماء النطاقات لعناوين IP','نقل الملفات','إدارة قواعد البيانات'],ans:1,cat:'خدمات الإنترنت'},
+  ],
+  'أخصائي موارد بشرية':[
+    {q:'كم مدة الإجازة السنوية لمن أكمل سنة ولم يتجاوز خمس سنوات؟',opts:['14 يوم','21 يوم','30 يوم','10 أيام'],ans:1,cat:'الإجازات'},
+    {q:'الحد الأقصى لساعات العمل اليومية في نظام العمل السعودي؟',opts:['6 ساعات','8 ساعات','10 ساعات','12 ساعة'],ans:1,cat:'ساعات العمل'},
+    {q:'الحد الأقصى لفترة الاختبار مع الموظف الجديد؟',opts:['30 يوماً','60 يوماً','90 يوماً','180 يوماً'],ans:2,cat:'عقد العمل'},
+    {q:'مكافأة نهاية الخدمة لكل سنة بعد خمس سنوات؟',opts:['نصف أجر شهر','ثلثا أجر شهر','أجر شهر كامل','أجر شهرين'],ans:2,cat:'مكافأة نهاية الخدمة'},
+    {q:'مدة إجازة الأمومة وفق نظام العمل السعودي؟',opts:['6 أسابيع','8 أسابيع','10 أسابيع','12 أسبوعاً'],ans:2,cat:'إجازة الأمومة'},
+    {q:'كم يوماً بأجر كامل في حالة المرض؟',opts:['15 يوماً','30 يوماً','60 يوماً','90 يوماً'],ans:1,cat:'الإجازة المرضية'},
+  ],
+};
+
+function getFallback(spec){
+  for(const k of Object.keys(EX_FALLBACK))
+    if(spec.includes(k.split(' ')[0])) return EX_FALLBACK[k];
+  return EX_FALLBACK['مطور برمجيات'];
+}
+
+// ══ STATE ══
+let st = {
+  view: 'intro',   // intro | loading | quiz | result | done
+  name: CNAME,
+  spec: CSPEC,
+  initials: CNAME.trim().split(' ').slice(0,2).map(p=>p[0]).join(''),
+  qs: [],
+  cur: 0,
+  answers: {},
+  timeLeft: DURATION,
+  timer: null,
+  startedAt: null,
+};
+
+// ══ RENDER ══
+function render(){
+  const app = document.getElementById('app');
+  if(st.view==='intro')   renderIntro(app);
+  else if(st.view==='loading') renderLoading(app);
+  else if(st.view==='quiz')    renderQuiz(app);
+  else if(st.view==='result')  renderResult(app);
+  else if(st.view==='done')    renderDone(app);
+}
+
+// ── INTRO ──
+function renderIntro(app){
+  const hasLink = CNAME && CSPEC;
+  const durMins = Math.round(DURATION/60);
+  app.innerHTML = `
+  <div class="card">
+    ${hasLink ? `
+      <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:3px">مرحباً،</div>
+        <div style="font-size:17px;font-weight:700">${CNAME}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">اختبار: <b style="color:var(--blue-t)">${CSPEC}</b></div>
+      </div>
+    ` : `
+      <div style="font-size:15px;font-weight:700;margin-bottom:16px">بيانات المرشح</div>
+      <div style="margin-bottom:12px">
+        <label>الاسم الكامل</label>
+        <input id="inp-name" type="text" placeholder="أدخل اسمك الكامل">
+      </div>
+      <div style="margin-bottom:16px">
+        <label>التخصص الوظيفي</label>
+        <select id="inp-spec">
+          <option value="">— اختر التخصص —</option>
+          ${EX_SPECIALTIES.map(s=>`<option>${s}</option>`).join('')}
+        </select>
+      </div>
+    `}
+    <div class="info-grid">
+      <div class="info-item"><div class="info-val">6</div><div class="info-lbl">أسئلة</div></div>
+      <div class="info-item"><div class="info-val">${durMins}</div><div class="info-lbl">دقائق</div></div>
+      <div class="info-item"><div class="info-val">60%</div><div class="info-lbl">للنجاح</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--text3);line-height:1.8;margin-bottom:18px">
+      الاختبار يقيّم مدى تطابق مهاراتك مع متطلبات الوظيفة. 
+      ${hasLink?'نتيجتك تُرفع إلى الموارد البشرية تلقائياً بعد الانتهاء.':''}
+    </p>
+    <button class="btn primary" onclick="startExam()">ابدأ الاختبار الآن</button>
+  </div>`;
+}
+
+// ── LOADING ──
+function renderLoading(app){
+  app.innerHTML=`
+  <div class="card" style="text-align:center;padding:3rem 2rem">
+    <div class="spinner"></div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:6px">جاري تحضير أسئلة ${st.spec}</div>
+    <div style="font-size:12px;color:var(--text3)">الذكاء الاصطناعي يُعدّ أسئلة مخصصة لتخصصك</div>
+  </div>`;
+}
+
+// ── QUIZ ──
+function renderQuiz(app){
+  const q = st.qs[st.cur];
+  const total = st.qs.length;
+  const pct = Math.round((st.cur / total)*100);
+  const timePct = Math.round((st.timeLeft / DURATION)*100);
+  const warn = st.timeLeft < 60;
+  const mins = Math.floor(st.timeLeft/60);
+  const secs = String(st.timeLeft%60).padStart(2,'0');
+  const L = ['أ','ب','ج','د'];
+  const answered = Object.keys(st.answers).length;
+
+  app.innerHTML=`
+  <div class="card">
+    <div class="timer-bar-wrap">
+      <div class="timer-bar-fill ${warn?'warn':''}" style="width:${timePct}%"></div>
+    </div>
+    <div class="timer-row">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${warn?'var(--red)':'var(--green)'};${warn?'animation:pulse .8s ease-in-out infinite':''}"></div>
+        <span class="timer-num ${warn?'warn':''}">${mins}:${secs}</span>
+        <span style="font-size:11px;color:var(--text3)">متبقي</span>
+      </div>
+      <span style="font-size:11px;color:var(--text3)">${answered}/${total} أُجيب عليها</span>
+    </div>
+    <div class="prog-row">
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <span class="prog-lbl">سؤال ${st.cur+1} من ${total}</span>
+    </div>
+    <div class="q-cat">${q.cat}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">
+      ${q.opts.map((o,i)=>`
+        <div class="opt ${st.answers[st.cur]===i?'sel':''}" onclick="pick(${i})">
+          <div class="opt-ltr">${L[i]}</div>
+          <span>${o}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn" onclick="prevQ()" ${st.cur===0?'disabled':''}>← السابق</button>
+    ${st.cur===total-1
+      ? `<button class="btn primary" onclick="submitExam()" ${answered<total?'disabled':''}>
+           ${answered<total?`أجب على ${total-answered} سؤال متبقي`:'إنهاء الاختبار ✓'}
+         </button>`
+      : `<button class="btn primary" onclick="nextQ()">التالي →</button>`
+    }
+  </div>`;
+}
+
+// ── RESULT ──
+function renderResult(app){
+  const total = st.qs.length;
+  let correct = 0;
+  const cats = {};
+  st.qs.forEach((q,i)=>{
+    const ok = st.answers[i]===q.ans;
+    if(ok) correct++;
+    if(!cats[q.cat]) cats[q.cat]={got:0,total:0};
+    cats[q.cat].total++;
+    if(ok) cats[q.cat].got++;
+  });
+  const pct = Math.round((correct/total)*100);
+  const passed = pct>=60, mid = pct>=40&&pct<60;
+  const verdict = passed?'مناسب للوظيفة — يُنصح بالمتابعة'
+                : mid   ?'نتيجة متوسطة — يحتاج تقييماً إضافياً'
+                        :'غير مناسب حالياً للوظيفة';
+  const vClass = passed?'pass':mid?'mid':'fail';
+
+  // Elapsed time
+  const elapsed = DURATION - st.timeLeft;
+  const elMin = Math.floor(elapsed/60), elSec = elapsed%60;
+  const elapsedStr = `${elMin}:${String(elSec).padStart(2,'0')} دقيقة`;
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ar-SA');
+  const clockStr = now.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+  const status = passed?'ناجح':mid?'متوسط':'راسب';
+
+  // Save to JSONBin
+  const resultObj = {
+    candidateId: CID,
+    name: st.name,
+    spec: st.spec,
+    score: pct,
+    correct,
+    total,
+    verdict,
+    status,
+    date: dateStr,
+    clockTime: clockStr,
+    time: elapsedStr,
+    cats: Object.entries(cats).map(([c,v])=>`${c}:${v.got}/${v.total}`).join(' | '),
+    savedAt: Date.now()
+  };
+
+  pushResult(resultObj);
+
+  app.innerHTML=`
+  <div class="card" style="text-align:center;padding:2rem">
+    <div class="score-ring">
+      <div class="score-pct">${pct}%</div>
+      <div class="score-of">${correct}/${total}</div>
+    </div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:4px">${st.name}</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:4px">${st.spec}</div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px">${dateStr} — ${clockStr}</div>
+    <div class="elapsed-tag">⏱ الوقت المستغرق: ${elapsedStr}</div>
+    <div class="verdict ${vClass}">${verdict}</div>
+  </div>
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px">الأداء حسب المحور</div>
+    ${Object.entries(cats).map(([cat,v])=>`
+      <div class="bk-row">
+        <span class="bk-lbl">${cat}</span>
+        <div class="bk-bar"><div class="bk-fill" style="width:${Math.round((v.got/v.total)*100)}%"></div></div>
+        <span class="bk-val">${v.got}/${v.total}</span>
+      </div>`).join('')}
+  </div>
+  <div class="card" style="text-align:center;background:var(--green-bg);border-color:rgba(5,122,85,.15)">
+    <div style="font-size:22px;margin-bottom:6px">✅</div>
+    <div style="font-size:13px;font-weight:700;color:var(--green-t);margin-bottom:4px">تم رفع نتيجتك بنجاح</div>
+    <div style="font-size:12px;color:var(--green-t);opacity:.8">سيتواصل معك فريق الموارد البشرية قريباً</div>
+  </div>`;
+}
+
+// ── DONE (no config) ──
+function renderDone(app){
+  app.innerHTML=`
+  <div class="err-box">
+    <div style="font-size:28px;margin-bottom:10px">⚠️</div>
+    <div style="font-size:14px;font-weight:700;color:var(--red-t);margin-bottom:6px">رابط غير صالح</div>
+    <div style="font-size:12px;color:var(--text2)">يبدو أن هذا الرابط غير مكتمل. يرجى التواصل مع مسؤول الموارد البشرية للحصول على رابط الاختبار الصحيح.</div>
+  </div>`;
+}
+
+// ══ ACTIONS ══
+async function startExam(){
+  if(!CNAME){
+    const n = document.getElementById('inp-name')?.value?.trim();
+    const s = document.getElementById('inp-spec')?.value;
+    if(!n){toast('الرجاء إدخال الاسم');return;}
+    if(!s){toast('الرجاء اختيار التخصص');return;}
+    st.name = n;
+    st.spec = s;
+    st.initials = n.trim().split(' ').slice(0,2).map(p=>p[0]).join('');
+  }
+  st.view = 'loading';
+  st.answers = {};
+  st.cur = 0;
+  render();
+  await loadQuestions();
+}
+
+async function loadQuestions(){
+  const isHR = /(موارد بشرية|موارد|hr)/i.test(st.spec);
+  const prompt = isHR
+    ? `أنشئ 6 أسئلة اختيار من متعدد عن نظام العمل السعودي لاختبار وظيفي في "${st.spec}". يشمل: الإجازات، ساعات العمل، مكافأة نهاية الخدمة، عقد العمل، فصل العمال، التأمينات. أجب فقط بـ JSON:\n[{"q":"السؤال","opts":["أ","ب","ج","د"],"ans":0,"cat":"المحور"}]`
+    : `أنشئ 6 أسئلة اختيار من متعدد لاختبار وظيفي في تخصص "${st.spec}". أجب فقط بـ JSON:\n[{"q":"السؤال","opts":["أ","ب","ج","د"],"ans":0,"cat":"المحور"}]\nأسئلة عملية ومتنوعة على محاور مختلفة.`;
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok) throw new Error();
+    const data = await res.json();
+    const text = data.content.map(c=>c.text||'').join('');
+    st.qs = JSON.parse(text.replace(/```json|```/g,'').trim());
+  }catch(e){
+    st.qs = getFallback(st.spec);
+  }
+  st.timeLeft = DURATION;
+  st.startedAt = Date.now();
+  startTimer();
+  st.view = 'quiz';
+  render();
+}
+
+function startTimer(){
+  if(st.timer) clearInterval(st.timer);
+  st.timer = setInterval(()=>{
+    st.timeLeft--;
+    if(st.timeLeft<=0){clearInterval(st.timer);submitExam();return;}
+    if(st.view==='quiz') renderQuiz(document.getElementById('app'));
+  },1000);
+}
+
+function pick(i){
+  st.answers[st.cur]=i;
+  renderQuiz(document.getElementById('app'));
+}
+function nextQ(){if(st.cur<st.qs.length-1){st.cur++;renderQuiz(document.getElementById('app'));}}
+function prevQ(){if(st.cur>0){st.cur--;renderQuiz(document.getElementById('app'));}}
+
+function submitExam(){
+  if(st.timer) clearInterval(st.timer);
+  st.view = 'result';
+  render();
+}
+
+// ══ JSONBIN PUSH ══
+async function pushResult(result){
+  if(!JBIN_KEY||!JBIN_BIN){
+    // No cloud config — store locally as fallback
+    try{
+      const local = JSON.parse(localStorage.getItem('hr-exam-results')||'[]');
+      local.push(result);
+      localStorage.setItem('hr-exam-results',JSON.stringify(local));
+    }catch(e){}
+    return;
+  }
+  try{
+    // 1. Load current data
+    const r = await fetch(`${JBIN_BASE}/${JBIN_BIN}/latest`,{
+      headers:{'X-Master-Key':JBIN_KEY}
+    });
+    const data = r.ok ? (await r.json()).record || {} : {};
+
+    // 2. Append result
+    if(!Array.isArray(data.exResults)) data.exResults = [];
+    // Avoid duplicates
+    const dup = data.exResults.find(x=>x.candidateId===result.candidateId&&x.name===result.name&&Math.abs((x.savedAt||0)-result.savedAt)<5000);
+    if(!dup) data.exResults.push(result);
+
+    // 3. Save back
+    await fetch(`${JBIN_BASE}/${JBIN_BIN}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JBIN_KEY},
+      body:JSON.stringify(data)
+    });
+  }catch(e){
+    // Silent fail — result is shown to candidate anyway
+  }
+}
+
+// ══ UTILS ══
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ══ INIT ══
+(function(){
+  // Validate: if opened directly (no params) show manual entry form
+  if(!CNAME && !CSPEC){
+    st.view = 'intro';
+    render();
+    return;
+  }
+  // Has candidate info from link
+  if(CNAME && CSPEC){
+    st.view = 'intro';
+    render();
+    return;
+  }
+  st.view = 'done';
+  render();
+})();
+
+// ══ SECURITY: PREVENT COPY ══
+document.addEventListener('copy', e=>e.preventDefault());
+document.addEventListener('cut', e=>e.preventDefault());
+document.addEventListener('contextmenu', e=>e.preventDefault());
+document.addEventListener('keydown', e=>{
+  // block Ctrl+C, Ctrl+A, Ctrl+U, Ctrl+S, F12, PrintScreen
+  if((e.ctrlKey||e.metaKey) && ['c','a','u','s','p'].includes(e.key.toLowerCase())) e.preventDefault();
+  if(e.key==='F12'||e.key==='PrintScreen') e.preventDefault();
+});
+
+// ══ SECURITY: LOCK ON TAB SWITCH / MINIMIZE ══
+let examLocked = false;
+function lockExam(){
+  if(examLocked) return;
+  if(!st || st.view !== 'quiz') return; // only lock during active exam
+  examLocked = true;
+  if(st.timer) clearInterval(st.timer);
+  document.getElementById('lock-overlay').classList.add('show');
+}
+
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden) lockExam();
+});
+window.addEventListener('blur', ()=>{
+  lockExam();
+});
+</script>
+
+<div class="lock-overlay" id="lock-overlay">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">تم إيقاف الاختبار</div>
+  <div class="lock-sub">لا يمكن متابعة الاختبار بعد مغادرة الصفحة</div>
+</div>
+</body>
+</html>
