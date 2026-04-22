@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Performance Appraisal — LUXURYKSA</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#111;color:#fff;min-height:100vh}
+.hide{display:none!important}
+#pg-welcome{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;position:relative;overflow:hidden}
+.bg-x{position:absolute;right:-60px;bottom:-60px;opacity:.06;pointer-events:none;z-index:0}
+.wz{position:relative;z-index:2;width:100%}
+.w-logo{font-size:30px;font-weight:bold;letter-spacing:4px;margin-bottom:4px}.w-logo span{color:#555}
+.w-hr-sub{font-size:11px;color:#555;letter-spacing:3px;margin-bottom:48px}
+.w-title{font-size:24px;font-weight:bold;margin-bottom:6px}
+.w-desc{font-size:13px;color:#555;margin-bottom:44px}
+.role-cards{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.role-btn{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:36px 44px;cursor:pointer;color:#fff;font-family:Arial,sans-serif;text-align:center;min-width:190px;transition:all .2s;position:relative;z-index:3}
+.role-btn:hover{outline:none;border-color:#555;background:#222;transform:translateY(-2px)}
+.icon{font-size:34px;margin-bottom:14px}
+.rtitle{font-size:15px;font-weight:bold;margin-bottom:5px}
+.rdesc{font-size:12px;color:#666;line-height:1.6}
+#pg-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.login-box{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:44px 38px;width:100%;max-width:400px;text-align:center}
+.lb-title{font-size:20px;font-weight:bold;margin-bottom:5px}
+.lb-sub{font-size:13px;color:#555;margin-bottom:28px}
+.fg{text-align:left;margin-bottom:16px}
+.fg label{font-size:11px;color:#666;display:block;margin-bottom:6px;letter-spacing:1px}
+.fg input{width:100%;background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:11px 14px;font-size:14px;color:#fff;outline:none;font-family:Arial,sans-serif}
+.fg input:focus{border-color:#555}
+.btn-go{width:100%;background:#fff;color:#111;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:bold;cursor:pointer;letter-spacing:1px;margin-top:6px;font-family:Arial,sans-serif}
+.btn-go:hover{background:#ddd}
+.a-back{background:none;border:none;color:#555;font-size:13px;cursor:pointer;margin-top:14px;display:block;width:100%;font-family:Arial,sans-serif}
+.a-back:hover{color:#fff}
+.topbar{background:#1a1a1a;border-bottom:1px solid #2a2a2a;padding:13px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.tb-logo{font-size:17px;font-weight:bold;letter-spacing:2px}.tb-logo span{color:#555}
+.tb-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:bold;letter-spacing:1px;border:1px solid}
+.badge-mgr{color:#aaa;border-color:#444}.badge-emp{color:#7a9fff;border-color:#3a5aff}
+.tb-name{font-size:13px;color:#666}
+.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;background:#333}
+.sync-dot.ok{background:#00cc66}.sync-dot.loading{background:#ffcc00;animation:pulse 1s infinite}.sync-dot.err{background:#ff4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn-sm{font-size:12px;padding:5px 13px;border:1px solid #333;background:none;color:#888;border-radius:6px;cursor:pointer;font-family:Arial,sans-serif}
+.btn-sm:hover{border-color:#fff;color:#fff}
+.pw{max-width:1100px;margin:0 auto;padding:28px 22px}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;gap:14px;flex-wrap:wrap}
+.ph-t{font-size:21px;font-weight:bold}.ph-s{font-size:13px;color:#555;margin-top:3px}
+.ph-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-w{background:#fff;color:#111;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif;white-space:nowrap}
+.btn-w:hover{background:#ddd}
+.btn-blue{background:#1a1a2e;color:#7a9fff;border:1px solid #3a5aff;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif;white-space:nowrap}
+.btn-blue:hover{background:#252540}
+.emp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.ec{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:18px;cursor:pointer;position:relative;transition:all .2s}
+.ec:hover{border-color:#444;background:#1e1e1e}
+.ec-badge{position:absolute;top:13px;right:13px;font-size:10px;padding:3px 9px;border-radius:20px;font-weight:bold;letter-spacing:1px}
+.b0{background:#1a1a00;color:#888800}.b1{background:#1a0a00;color:#886600}.b2{background:#001028;color:#4488ff}.b3{background:#001800;color:#00aa00}
+.ec-name{font-size:15px;font-weight:bold;margin-bottom:3px}
+.ec-meta{font-size:12px;color:#555;margin-bottom:14px}
+.ec-row{display:flex;gap:14px}
+.ec-sc{flex:1}.ec-sc-l{font-size:10px;color:#555;letter-spacing:1px;margin-bottom:3px}.ec-sc-v{font-size:21px;font-weight:bold}
+.bar-wrap{height:3px;background:#222;border-radius:3px;margin-top:7px}.bar{height:3px;border-radius:3px}
+.empty{text-align:center;padding:70px 20px;color:#444;grid-column:1/-1}
+.fw{max-width:840px;margin:0 auto;padding:28px 22px}
+.who-ban{border-radius:10px;padding:11px 18px;margin-bottom:18px;font-size:13px;font-weight:bold;letter-spacing:1px;text-align:center}
+.who-mgr{background:#1a1a2e;color:#7a9fff;border:1px solid #2a3a6e}
+.who-emp{background:#001a1a;color:#00aaaa;border:1px solid #005555}
+.form-info{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px 24px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ff{display:flex;flex-direction:column;gap:5px}
+.ff label{font-size:11px;color:#666;letter-spacing:1px}
+.ff input{background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:9px 11px;font-size:13px;color:#fff;outline:none;font-family:Arial,sans-serif}
+.ff input:focus{border-color:#555}
+.cat-blk{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;margin-bottom:13px;overflow:hidden}
+.cat-h{padding:13px 20px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+.cat-hl{font-size:14px;font-weight:bold}
+.cat-pct{font-size:11px;color:#888;background:#111;padding:3px 9px;border-radius:20px;margin-right:8px}
+.cr{display:grid;grid-template-columns:1fr 216px;align-items:center;padding:10px 20px;border-bottom:1px solid #1a1a1a}
+.cr:last-child{border-bottom:none}.cr-n{font-size:13px;color:#bbb}
+.sbtns{display:flex;gap:5px;justify-content:flex-end}
+.sb{width:33px;height:33px;border-radius:6px;border:1px solid #2a2a2a;background:#111;color:#666;font-size:12px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif;transition:all .15s}
+.sb:hover{border-color:#777;color:#fff}
+.sb.on{border-color:transparent!important}
+.sb.on.s0{background:#ff4444;color:#fff}.sb.on.s1{background:#ff8800;color:#fff}.sb.on.s2{background:#ffcc00;color:#111}
+.sb.on.s3{background:#88cc00;color:#111}.sb.on.s4{background:#00cc66;color:#fff}.sb.on.s5{background:#0088ff;color:#fff}
+.cat-ft{padding:9px 20px;background:#0f0f0f;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;font-size:12px;color:#555}
+.cat-ft strong{color:#aaa}
+.cmmt{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px 20px;margin-bottom:14px}
+.cmmt label{font-size:11px;color:#666;display:block;margin-bottom:7px;letter-spacing:1px}
+.cmmt textarea{width:100%;background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:10px;font-size:13px;color:#fff;outline:none;resize:vertical;min-height:76px;font-family:Arial,sans-serif}
+.cmmt textarea:focus{border-color:#555}
+.f-actions{display:flex;gap:11px;margin-top:18px}
+.btn-draft{flex:1;background:none;border:1px solid #333;color:#888;border-radius:8px;padding:12px;font-size:14px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif}
+.btn-draft:hover{border-color:#fff;color:#fff}
+.btn-sub{flex:2;background:#fff;color:#111;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:bold;cursor:pointer;letter-spacing:1px;font-family:Arial,sans-serif}
+.btn-sub:hover{background:#ddd}
+.rw{max-width:880px;margin:0 auto;padding:28px 22px}
+.hero{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:28px;margin-bottom:18px}
+.h-name{font-size:21px;font-weight:bold;margin-bottom:3px}
+.h-dept{font-size:13px;color:#555;margin-bottom:22px}
+.sc2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sc2-col{background:#111;border:1px solid #222;border-radius:10px;padding:18px;text-align:center}
+.sc2-lbl{font-size:10px;color:#555;letter-spacing:2px;margin-bottom:9px}
+.sc2-val{font-size:46px;font-weight:bold;line-height:1}
+.sc2-max{font-size:13px;color:#444;margin-top:3px}
+.sc2-rate{font-size:11px;font-weight:bold;margin-top:9px;padding:3px 13px;border-radius:20px;display:inline-block}
+.cb{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;margin-bottom:11px;overflow:hidden}
+.cb-h{padding:13px 20px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+.cb-t{font-size:14px;font-weight:bold}
+.cb-sc{display:flex;gap:14px}
+.cb-sv{font-size:14px;font-weight:bold}
+.cb-sl{font-size:11px;color:#555;margin-right:3px}
+.cc{display:grid;grid-template-columns:1fr 90px 90px;align-items:center;padding:8px 20px;border-bottom:1px solid #1a1a1a;font-size:12px}
+.cc:last-child{border-bottom:none}
+.cc-n{color:#aaa}.cc-s{text-align:center;font-weight:bold;font-size:13px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.pend-msg{text-align:center;padding:70px 20px;color:#444}
+.pm-ic{font-size:46px;margin-bottom:14px}
+.btn-del{background:none;border:1px solid #3a1a1a;color:#884444;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;transition:all .2s;margin-top:10px;display:block;width:100%}
+.btn-del:hover{border-color:#ff4444;color:#ff4444;background:#1a0000}
+.sc-tbl{border-collapse:collapse;min-width:800px;width:100%}
+.sc-tbl th{background:#0f0f0f;color:#666;font-size:10px;letter-spacing:1px;padding:9px 10px;text-align:center;border-bottom:1px solid #2a2a2a;white-space:nowrap;font-weight:700}
+.sc-tbl th.tl{text-align:left;min-width:170px}
+.sc-tbl th.te{min-width:80px;color:#ccc;font-size:11px}
+.sc-tbl td{padding:7px 10px;border-bottom:1px solid #1a1a1a;font-size:12px;text-align:center}
+.sc-tbl td.tl{text-align:left;color:#aaa;padding-left:14px}
+.sc-tbl td.tw{color:#555;font-size:11px}
+.sc-tbl tr.rcat td{background:#111;color:#7a9fff;font-weight:bold;font-size:12px;padding:9px 10px;border-top:2px solid #2a2a2a}
+.sc-tbl tr.rsub td{background:#0f0f0f;font-weight:bold;font-size:12px;border-top:1px solid #2a2a2a;color:#aaa}
+.sc-tbl tr.rtot td{background:#1a1a2e;font-weight:bold;font-size:13px;border-top:2px solid #3a5aff;padding:11px 10px}
+.sc-tbl tr.rtot td.tl{color:#7a9fff}
+.aw-box{margin-top:20px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:18px 22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.aw-lbl{font-size:10px;color:#555;letter-spacing:2px;margin-bottom:5px}
+.aw-name{font-size:20px;font-weight:bold;color:#d4a017}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#1a1a1a;border:1px solid #333;border-radius:14px;padding:32px;width:100%;max-width:410px;margin:16px}
+.m-t{font-size:17px;font-weight:bold;margin-bottom:20px}
+.m-acts{display:flex;gap:9px;margin-top:20px}
+.btn-cancel{flex:1;background:none;border:1px solid #333;color:#666;border-radius:8px;padding:10px;font-size:13px;cursor:pointer;font-family:Arial,sans-serif}
+.btn-cancel:hover{border-color:#fff;color:#fff}
+.btn-add{flex:2;background:#fff;color:#111;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif}
+.btn-add:hover{background:#ddd}
+.c0{color:#ff4444}.c1{color:#ff8800}.c2{color:#ffcc00}.c3{color:#88cc00}.c4{color:#00cc66}.c5{color:#0088ff}
+.d0{background:#ff4444}.d1{background:#ff8800}.d2{background:#ffcc00}.d3{background:#88cc00}.d4{background:#00cc66}.d5{background:#0088ff}
+.rb0{background:#2a0000;color:#ff4444}.rb1{background:#2a1200;color:#ff8800}.rb2{background:#2a2200;color:#ffcc00}
+.rb3{background:#142200;color:#88cc00}.rb4{background:#002a12;color:#00cc66}.rb5{background:#001a2a;color:#0088ff}
+@media(max-width:600px){.form-info,.sc2{grid-template-columns:1fr}.cr{grid-template-columns:1fr;gap:8px}}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="pg-welcome">
+  <svg class="bg-x" width="340" height="340" viewBox="0 0 340 340">
+    <line x1="0" y1="0" x2="340" y2="340" stroke="#fff" stroke-width="65"/>
+    <line x1="340" y1="0" x2="0" y2="340" stroke="#fff" stroke-width="65"/>
+  </svg>
+  <div class="wz">
+    <div class="w-logo">LUXURY<span>KSA</span></div>
+    <div class="w-hr-sub">HUMAN RESOURCES</div>
+    <div class="w-title">Performance Appraisal System</div>
+    <div class="w-desc">Manager evaluation + Employee self-assessment &bull; Cloud Sync</div>
+    <div class="role-cards">
+      <button class="role-btn" onclick="goMgr()">
+        <div class="icon">&#128188;</div>
+        <div class="rtitle">Manager</div>
+        <div class="rdesc">Evaluate your team<br>and review results</div>
+      </button>
+      <button class="role-btn" onclick="goEmp()">
+        <div class="icon">&#128100;</div>
+        <div class="rtitle">Employee</div>
+        <div class="rdesc">Self-assessment<br>and view results</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="pg-login" class="hide">
+  <div class="login-box">
+    <div class="lb-title" id="lb-title">Login</div>
+    <div class="lb-sub" id="lb-sub">Enter your details to continue</div>
+    <div class="fg"><label>YOUR NAME</label><input id="ln-name" type="text" placeholder="Full name" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg" id="ln-dept-wrap"><label>DEPARTMENT</label><input id="ln-dept" type="text" placeholder="e.g. Human Resources" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg" id="ln-pass-wrap"><label>MANAGER PASSWORD</label><input id="ln-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg" id="ln-eid-wrap" class="hide">
+      <label>EMPLOYEE ID <span style="color:#ff4444">*</span></label>
+      <input id="ln-eid" type="text" placeholder="e.g. EMP-001" style="text-transform:uppercase" onkeydown="if(event.key==='Enter')doLogin()">
+      <div style="font-size:11px;color:#555;margin-top:5px">Get your Employee ID from your manager</div>
+    </div>
+    <button class="btn-go" onclick="doLogin()">CONTINUE</button>
+    <button class="a-back" onclick="go('pg-welcome')">&#8592; Back</button>
+  </div>
+</div>
+
+<!-- MANAGER -->
+<div id="pg-mgr" class="hide">
+  <div class="topbar">
+    <div class="tb-logo">LUXURY<span>KSA</span></div>
+    <div class="tb-right">
+      <span class="badge badge-mgr">MANAGER</span>
+      <span class="tb-name" id="tb-mgr-name"></span>
+      <span style="font-size:11px;color:#555;display:flex;align-items:center">
+        <span class="sync-dot" id="sync-dot"></span>
+        <span id="sync-txt">connecting</span>
+      </span>
+      <button class="btn-sm" onclick="cloudLoad(function(){renderMgr();})">&#8635;</button>
+      <button class="btn-sm" onclick="go('pg-welcome')">Logout</button>
+    </div>
+  </div>
+  <div class="pw">
+    <div class="ph">
+      <div><div class="ph-t">Team Appraisals</div><div class="ph-s">Cloud-synced &bull; All managers see the same data</div></div>
+      <div class="ph-btns">
+        <button class="btn-blue" onclick="renderScorecard();go('pg-sc')">&#128202; Scorecard</button>
+        <button class="btn-w" onclick="document.getElementById('modal').classList.add('open')">+ Add Employee</button>
+      </div>
+    </div>
+    <div id="emp-grid" class="emp-grid"></div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div id="pg-form" class="hide">
+  <div class="topbar">
+    <div class="tb-logo">LUXURY<span>KSA</span></div>
+    <div class="tb-right">
+      <span class="badge" id="form-badge">MANAGER</span>
+      <button class="btn-sm" id="btn-form-back" onclick="formBack()">&#8592; Back</button>
+    </div>
+  </div>
+  <div class="fw">
+    <div class="ph">
+      <div><div class="ph-t" id="form-title"></div><div class="ph-s" id="form-meta"></div></div>
+      <div style="text-align:right"><div style="font-size:11px;color:#555;margin-bottom:3px">SCORE</div><div style="font-size:25px;font-weight:bold" id="form-score">0.00 / 5</div></div>
+    </div>
+    <div class="who-ban" id="who-ban"></div>
+    <div class="form-info">
+      <div class="ff"><label>APPRAISED BY</label><input id="ff-by" type="text"></div>
+      <div class="ff"><label>DATE</label><input id="ff-date" type="date"></div>
+      <div class="ff"><label>PERIOD</label><input id="ff-period" type="text" placeholder="e.g. Q1 2026"></div>
+      <div class="ff"><label>POSITION</label><input id="ff-pos" type="text"></div>
+    </div>
+    <div id="form-cats"></div>
+    <div class="cmmt"><label>COMMENTS &amp; NOTES</label><textarea id="ff-cmmt" placeholder="Add feedback and notes..."></textarea></div>
+    <div class="f-actions">
+      <button class="btn-draft" onclick="saveForm('draft')">Save Draft</button>
+      <button class="btn-sub" onclick="saveForm('submitted')">Submit &amp; Sync</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYEE -->
+<div id="pg-emp" class="hide">
+  <div class="topbar">
+    <div class="tb-logo">LUXURY<span>KSA</span></div>
+    <div class="tb-right">
+      <span class="badge" id="pg-emp-badge">EMPLOYEE</span>
+      <span class="tb-name" id="tb-emp-name"></span>
+      <button class="btn-sm" id="btn-emp-back" onclick="go('pg-welcome')">&#8592; Back</button>
+    </div>
+  </div>
+  <div id="emp-content"></div>
+</div>
+
+<!-- SCORECARD -->
+<div id="pg-sc" class="hide">
+  <div class="topbar">
+    <div class="tb-logo">LUXURY<span>KSA</span></div>
+    <div class="tb-right">
+      <span class="badge badge-mgr">MANAGER</span>
+      <button class="btn-sm" onclick="go('pg-mgr')">&#8592; Back</button>
+    </div>
+  </div>
+  <div style="max-width:100%;overflow-x:auto;padding:24px">
+    <div id="sc-content"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="m-t">Add Employee</div>
+    <div class="fg"><label>FULL NAME</label><input id="nm-name" type="text" placeholder="Full name"></div>
+    <div class="fg"><label>EMPLOYEE ID <span style="color:#ff4444">*</span></label><input id="nm-id" type="text" placeholder="EMP-001 (required)"></div>
+    <div class="fg"><label>POSITION</label><input id="nm-pos" type="text" placeholder="Job title"></div>
+    <div class="fg"><label>DEPARTMENT</label><input id="nm-dept" type="text" placeholder="Department"></div>
+    <div class="m-acts">
+      <button class="btn-cancel" onclick="document.getElementById('modal').classList.remove('open')">Cancel</button>
+      <button class="btn-add" onclick="addEmployee()">Add Employee</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// CONFIG
+var API_KEY = '$2a$10$zrJENwa77rSgkH2SN2OBCO9l7bLjzobY0o/fdcgsMguu6w9UxXMQu';
+var BIN_ID  = '69e88b07aaba88219725d632';
+var API_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
+var MGR_PASS = 'luxuryksa2026';
+
+var CATS = [
+  {id:'fn',name:'Functional Skills',pct:'35%',w:0.35,items:['Work Habits','Quality of Work','Job Knowledge','Delivery Efficiency',"KPI's Achievement",'Adheres to Policies & Procedures','Caring for work improvement']},
+  {id:'ip',name:'Interpersonal Skills',pct:'20%',w:0.20,items:['Communication','Collaboration','Flexibility','Attendance & Punctuality']},
+  {id:'pr',name:'Professional Skills',pct:'25%',w:0.25,items:["Safeguarding company's assets",'Respect','Appearance','Personal Behaviour','Accepts Criticism from managers']},
+  {id:'ld',name:'Leadership Skills',pct:'20%',w:0.20,items:['Problem Solving','Decision Making','Reliability','Able to initiate']}
+];
+var SL = {0:'Dismissal',1:'Unsatisfactory',2:'Need Improvement',3:'Meets Requirement',4:'Exceeds Requirement',5:'Outstanding'};
+var SC = ['#ff4444','#ff8800','#ffcc00','#88cc00','#00cc66','#0088ff'];
+
+var DB = {role:null,mgr:'',empSession:null,employees:[],curIdx:null,formType:null};
+var FS = {};
+var _formBackFn = null;
+
+// PAGES
+var PAGES = ['pg-welcome','pg-login','pg-mgr','pg-form','pg-emp','pg-sc'];
+function go(id){PAGES.forEach(function(p){document.getElementById(p).classList.add('hide');});document.getElementById(id).classList.remove('hide');window.scrollTo(0,0);}
+
+// WELCOME HANDLERS
+function goMgr(){
+  DB.role='mgr';
+  document.getElementById('lb-title').textContent='Manager Login';
+  document.getElementById('lb-sub').textContent='Enter your credentials to continue';
+  document.getElementById('ln-dept-wrap').classList.remove('hide');
+  document.getElementById('ln-pass-wrap').classList.remove('hide');
+  document.getElementById('ln-eid-wrap').classList.add('hide');
+  document.getElementById('ln-name').value='';
+  document.getElementById('ln-dept').value='';
+  document.getElementById('ln-pass').value='';
+  go('pg-login');
+  setTimeout(function(){document.getElementById('ln-name').focus();},150);
+}
+function goEmp(){
+  DB.role='emp';
+  document.getElementById('lb-title').textContent='Employee Login';
+  document.getElementById('lb-sub').textContent='Enter your Employee ID to access your appraisal';
+  document.getElementById('ln-dept-wrap').classList.add('hide');
+  document.getElementById('ln-pass-wrap').classList.add('hide');
+  document.getElementById('ln-eid-wrap').classList.remove('hide');
+  document.getElementById('ln-name').value='';
+  document.getElementById('ln-eid').value='';
+  go('pg-login');
+  setTimeout(function(){document.getElementById('ln-eid').focus();},150);
+}
+
+// SYNC
+function setSyncStatus(state,msg){var d=document.getElementById('sync-dot'),t=document.getElementById('sync-txt');if(!d)return;d.className='sync-dot '+state;if(t)t.textContent=msg||state;}
+
+function cloudLoad(cb){
+  try{var loc=JSON.parse(localStorage.getItem('lksa_pa')||'{}');if(loc.employees&&loc.employees.length){DB.employees=loc.employees;if(cb){cb();cb=null;}}}catch(x){}
+  setSyncStatus('loading','syncing...');
+  fetch(API_URL+'/latest',{headers:{'X-Master-Key':API_KEY}})
+    .then(function(r){return r.json();})
+    .then(function(d){DB.employees=(d.record&&d.record.employees)?d.record.employees:[];localStorage.setItem('lksa_pa',JSON.stringify({employees:DB.employees}));setSyncStatus('ok','synced');if(cb)cb();else{try{renderMgr();}catch(e){}}})
+    .catch(function(){setSyncStatus('err','offline');if(cb)cb();});
+}
+
+function cloudSave(cb){
+  localStorage.setItem('lksa_pa',JSON.stringify({employees:DB.employees}));
+  setSyncStatus('loading','saving...');
+  if(cb){cb();cb=null;}
+  fetch(API_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},body:JSON.stringify({employees:DB.employees})})
+    .then(function(r){return r.json();})
+    .then(function(){setSyncStatus('ok','synced ✓');setTimeout(function(){setSyncStatus('ok','synced');},2000);})
+    .catch(function(){setSyncStatus('err','cloud error');});
+}
+
+// LOGIN
+function doLogin(){
+  var name=document.getElementById('ln-name').value.trim();
+  if(!name){alert('Please enter your name');return;}
+  if(DB.role==='mgr'){
+    if(document.getElementById('ln-pass').value!==MGR_PASS){alert('Incorrect password');document.getElementById('ln-pass').value='';document.getElementById('ln-pass').focus();return;}
+    DB.mgr=name;
+    document.getElementById('tb-mgr-name').textContent=name;
+    go('pg-mgr');
+    cloudLoad(function(){renderMgr();});
+  } else {
+    var eid=document.getElementById('ln-eid').value.trim().toUpperCase();
+    if(!eid){alert('Please enter your Employee ID');return;}
+    DB.empSession={name:name,eid:eid};
+    document.getElementById('tb-emp-name').textContent=name;
+    cloudLoad(function(){renderEmp(name,eid);go('pg-emp');});
+  }
+}
+
+// MANAGER DASHBOARD
+function renderMgr(){
+  var g=document.getElementById('emp-grid');
+  if(!DB.employees.length){g.innerHTML='<div class="empty"><div style="font-size:38px;margin-bottom:14px">&#128101;</div><p>No employees yet.<br>Click &ldquo;+ Add Employee&rdquo; to start.</p></div>';return;}
+  var h='';
+  for(var i=0;i<DB.employees.length;i++){
+    var e=DB.employees[i],ma=e.ma,sa=e.sa;
+    var ms=ma?ma.total:null,ss=sa?sa.total:null;
+    var st=!ma?0:ma.status!=='submitted'?1:!sa?2:sa.status==='submitted'?3:2;
+    var bx=['b0','b1','b2','b3'][st],bl=['PENDING','MGR DRAFT','AWAITING SELF','COMPLETE'][st];
+    var mc=ms?SC[Math.min(Math.floor(ms),5)]:'#444',sc2=ss?SC[Math.min(Math.floor(ss),5)]:'#444';
+    h+='<div class="ec" onclick="openMgr('+i+')">';
+    h+='<span class="ec-badge '+bx+'">'+bl+'</span>';
+    h+='<div class="ec-name">'+e.name+'</div>';
+    h+='<div class="ec-meta"><span style="color:#4488ff;font-weight:bold">'+(e.empId||'—')+'</span>'+(e.pos?' &middot; '+e.pos:'')+' '+(e.dept?'&middot; '+e.dept:'')+'</div>';
+    h+='<div class="ec-row">';
+    h+='<div class="ec-sc"><div class="ec-sc-l">MANAGER</div><div class="ec-sc-v" style="color:'+mc+'">'+(ms?ms.toFixed(2):'&mdash;')+'</div><div class="bar-wrap"><div class="bar" style="width:'+(ms?Math.round(ms/5*100):0)+'%;background:'+mc+'"></div></div></div>';
+    h+='<div class="ec-sc"><div class="ec-sc-l">SELF</div><div class="ec-sc-v" style="color:'+sc2+'">'+(ss?ss.toFixed(2):'&mdash;')+'</div><div class="bar-wrap"><div class="bar" style="width:'+(ss?Math.round(ss/5*100):0)+'%;background:'+sc2+'"></div></div></div>';
+    h+='</div>';
+    h+='<button class="btn-del" onclick="deleteEmp(event,'+i+')">&#128465; Delete Employee</button>';
+    h+='</div>';
+  }
+  g.innerHTML=h;
+}
+
+function openMgr(idx){
+  DB.curIdx=idx;DB.formType='mgr';
+  var e=DB.employees[idx];
+  if(e.ma&&e.ma.status==='submitted'&&e.sa&&e.sa.status==='submitted'){renderMgrComparison(idx);go('pg-emp');return;}
+  openForm(e,e.ma||{},'mgr',function(){renderMgr();go('pg-mgr');});
+}
+
+function deleteEmp(e,idx){
+  e.stopPropagation();
+  var emp=DB.employees[idx];
+  if(!confirm('Delete "'+emp.name+'" and all their appraisal data?
+This cannot be undone.'))return;
+  DB.employees.splice(idx,1);
+  cloudSave(function(){renderMgr();});
+}
+
+// ADD EMPLOYEE
+function addEmployee(){
+  var name=document.getElementById('nm-name').value.trim();
+  var empId=document.getElementById('nm-id').value.trim().toUpperCase();
+  if(!name){alert('Name required');return;}
+  if(!empId){alert('Employee ID is required');return;}
+  var dup=DB.employees.find(function(e){return e.empId&&e.empId.toUpperCase()===empId;});
+  if(dup){alert('Employee ID "'+empId+'" already exists for: '+dup.name);return;}
+  DB.employees.push({name:name,empId:empId,pos:document.getElementById('nm-pos').value.trim(),dept:document.getElementById('nm-dept').value.trim(),ma:null,sa:null});
+  document.getElementById('modal').classList.remove('open');
+  ['nm-name','nm-id','nm-pos','nm-dept'].forEach(function(id){document.getElementById(id).value='';});
+  cloudSave(function(){renderMgr();});
+}
+
+// FORM
+function catSc(cat){var ok=cat.items.filter(function(i){return FS[cat.id+'_'+i]!==undefined;});if(!ok.length)return 0;return ok.reduce(function(a,i){return a+FS[cat.id+'_'+i];},0)/cat.items.length;}
+function totalSc(){return CATS.reduce(function(t,c){return t+catSc(c)*c.w;},0);}
+function catSc2(scores,cat){var ok=cat.items.filter(function(i){return scores[cat.id+'_'+i]!==undefined;});if(!ok.length)return 0;return ok.reduce(function(a,i){return a+scores[cat.id+'_'+i];},0)/cat.items.length;}
+function formBack(){if(_formBackFn)_formBackFn();}
+
+function openForm(e,ap,type,backFn){
+  document.getElementById('form-badge').textContent=type==='mgr'?'MANAGER':'EMPLOYEE';
+  document.getElementById('form-badge').className='badge '+(type==='mgr'?'badge-mgr':'badge-emp');
+  _formBackFn=backFn;
+  document.getElementById('form-title').textContent=e.name;
+  document.getElementById('form-meta').textContent=[e.pos,e.dept].filter(Boolean).join(' · ');
+  var wb=document.getElementById('who-ban');
+  wb.className='who-ban '+(type==='mgr'?'who-mgr':'who-emp');
+  wb.textContent=type==='mgr'?'MANAGER EVALUATION':'SELF-ASSESSMENT';
+  document.getElementById('ff-by').value=ap.by||(type==='mgr'?DB.mgr:e.name);
+  document.getElementById('ff-date').value=ap.date||new Date().toISOString().split('T')[0];
+  document.getElementById('ff-period').value=ap.period||'';
+  document.getElementById('ff-pos').value=ap.pos||e.pos||'';
+  document.getElementById('ff-cmmt').value=ap.comments||'';
+  FS=ap.scores?JSON.parse(JSON.stringify(ap.scores)):{};
+  buildFormCats();updTotal();go('pg-form');
+}
+
+function buildFormCats(){
+  var h='';
+  for(var ci=0;ci<CATS.length;ci++){
+    var cat=CATS[ci],rows='';
+    for(var ii=0;ii<cat.items.length;ii++){
+      var item=cat.items[ii],key=cat.id+'_'+item,cur=FS[key]!==undefined?FS[key]:-1;
+      var btns='';
+      for(var s=0;s<=5;s++) btns+='<button class="sb s'+s+(cur===s?' on':'')+(cur===s?' on':'')+'" onclick="setScore(''+key+'','+s+',this)">'+s+'</button>';
+      rows+='<div class="cr"><span class="cr-n">'+item+'</span><div class="sbtns">'+btns+'</div></div>';
+    }
+    var cs=catSc(cat);
+    h+='<div class="cat-blk"><div class="cat-h"><div class="cat-hl">'+cat.name+'</div><div><span class="cat-pct">'+cat.pct+'</span><span style="font-size:13px;font-weight:bold" id="cs-'+cat.id+'">'+cs.toFixed(2)+' / 5</span></div></div>'+rows;
+    h+='<div class="cat-ft"><span>Contribution</span><strong id="cc-'+cat.id+'">'+(cs*cat.w).toFixed(3)+' pts</strong></div></div>';
+  }
+  document.getElementById('form-cats').innerHTML=h;
+}
+
+function setScore(key,s,btn){
+  if(FS[key]===s)return;
+  FS[key]=s;
+  btn.parentElement.querySelectorAll('.sb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  CATS.forEach(function(cat){var cs=catSc(cat);var e1=document.getElementById('cs-'+cat.id),e2=document.getElementById('cc-'+cat.id);if(e1)e1.textContent=cs.toFixed(2)+' / 5';if(e2)e2.textContent=(cs*cat.w).toFixed(3)+' pts';});
+  updTotal();
+}
+
+function updTotal(){var t=totalSc(),el=document.getElementById('form-score');if(el){el.textContent=t.toFixed(2)+' / 5.00';el.style.color=SC[Math.min(Math.floor(t),5)];}}
+
+function saveForm(status){
+  var e=DB.employees[DB.curIdx];
+  var ap={scores:JSON.parse(JSON.stringify(FS)),total:totalSc(),by:document.getElementById('ff-by').value,date:document.getElementById('ff-date').value,period:document.getElementById('ff-period').value,pos:document.getElementById('ff-pos').value,comments:document.getElementById('ff-cmmt').value,status:status};
+  if(DB.formType==='mgr')e.ma=ap;else e.sa=ap;
+  cloudSave(function(){if(_formBackFn)_formBackFn();setTimeout(function(){alert(status==='submitted'?'Submitted!':'Draft saved.');},80);});
+}
+
+// EMPLOYEE VIEW
+function openSelf(idx){
+  DB.curIdx=idx;DB.formType='self';
+  var e=DB.employees[idx];
+  openForm(e,e.sa||{},'self',function(){renderEmp(DB.empSession.name,DB.empSession.eid);go('pg-emp');});
+}
+
+function renderEmp(name,eid){
+  var area=document.getElementById('emp-content');
+  var idx=-1,eid2=(eid||'').toUpperCase().trim();
+  for(var i=0;i<DB.employees.length;i++){var e=DB.employees[i];if(e.empId&&e.empId.toUpperCase().trim()===eid2){idx=i;break;}}
+  if(idx<0){area.innerHTML='<div class="rw"><div class="pend-msg"><div class="pm-ic">&#128269;</div><p>No record found for Employee ID: <strong style="color:#4488ff">'+eid+'</strong><br><br>Make sure your manager added your correct Employee ID.</p></div></div>';return;}
+  DB.curIdx=idx;
+  var emp=DB.employees[idx],ma=emp.ma,sa=emp.sa;
+  if(!ma||ma.status!=='submitted'){area.innerHTML='<div class="rw"><div class="pend-msg"><div class="pm-ic">&#8987;</div><p>Your manager has not submitted your appraisal yet.<br>Please check back later.</p></div></div>';return;}
+  if(!sa||sa.status!=='submitted'){
+    var lbl=(sa&&sa.status==='draft')?'Continue Self-Assessment':'Start Self-Assessment';
+    area.innerHTML='<div class="rw"><div class="hero"><div class="h-name">'+emp.name+'</div><div class="h-dept">'+(emp.pos||'')+'</div><div style="padding:24px;background:#111;border-radius:10px;text-align:center;margin-top:14px"><div style="font-size:13px;color:#0088ff;font-weight:bold;margin-bottom:7px">&#10003; Manager submitted your appraisal</div><div style="font-size:12px;color:#555;margin-bottom:20px">Complete your self-assessment to view your results.</div><button class="btn-w" onclick="openSelf('+idx+')">'+lbl+'</button></div></div></div>';
+    return;
+  }
+  renderEmpResult(idx);
+}
+
+function renderEmpResult(idx){
+  var area=document.getElementById('emp-content');
+  var e=DB.employees[idx],sa=e.sa,ss=sa.total,sr=Math.round(ss),sc2=SC[Math.min(Math.floor(ss),5)];
+  var catH='';
+  for(var ci=0;ci<CATS.length;ci++){
+    var cat=CATS[ci],scs=catSc2(sa.scores,cat),rows='';
+    for(var ii=0;ii<cat.items.length;ii++){var item=cat.items[ii],k=cat.id+'_'+item,sv=sa.scores[k];rows+='<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 20px;border-bottom:1px solid #1a1a1a;font-size:13px"><span style="color:#aaa">'+item+'</span><span class="'+(sv!==undefined?'c'+sv:'')+'" style="font-weight:bold">'+(sv!==undefined?'<span class="dot d'+sv+'"></span>'+sv+' &mdash; '+(SL[sv]||''):'&mdash;')+'</span></div>';}
+    catH+='<div class="cb"><div class="cb-h"><div class="cb-t">'+cat.name+' <span style="color:#555;font-size:12px">'+cat.pct+'</span></div><div class="cb-sv c'+Math.round(scs)+'">'+scs.toFixed(2)+' / 5</div></div>'+rows+'</div>';
+  }
+  area.innerHTML='<div class="rw"><div class="hero"><div class="h-name">'+e.name+'</div><div class="h-dept">'+[e.pos,e.dept].filter(Boolean).join(' · ')+'</div><div style="text-align:center;padding:20px;background:#111;border-radius:10px;margin-top:8px"><div style="font-size:10px;color:#555;letter-spacing:2px;margin-bottom:8px">YOUR SELF-ASSESSMENT</div><div style="font-size:52px;font-weight:bold;color:'+sc2+'">'+ss.toFixed(2)+'</div><div style="font-size:13px;color:#444;margin-top:3px">/ 5.00</div><div class="sc2-rate rb'+Math.min(sr,5)+'" style="margin-top:10px">'+(SL[sr]||'')+'</div></div></div><div style="font-size:11px;color:#555;letter-spacing:2px;margin-bottom:11px;padding:0 2px">BREAKDOWN</div>'+catH+(sa.comments?'<div class="cmmt"><label>YOUR COMMENTS</label><div style="font-size:13px;color:#bbb;line-height:1.7">'+sa.comments+'</div></div>':'')+'</div>';
+}
+
+function renderMgrComparison(idx){
+  document.getElementById('pg-emp-badge').textContent='MANAGER';
+  document.getElementById('pg-emp-badge').className='badge badge-mgr';
+  document.getElementById('tb-emp-name').textContent=DB.mgr;
+  document.getElementById('btn-emp-back').onclick=function(){renderMgr();go('pg-mgr');};
+  var area=document.getElementById('emp-content');
+  var e=DB.employees[idx],ma=e.ma,sa=e.sa,ms=ma.total,ss=sa.total,mr=Math.round(ms),sr=Math.round(ss);
+  var mc=SC[Math.min(Math.floor(ms),5)],sc2=SC[Math.min(Math.floor(ss),5)];
+  var diff=ss-ms,dc=diff>0?'#00cc66':diff<0?'#ff6644':'#555';
+  var dl=diff>0?'Employee rated self +'+diff.toFixed(2)+' higher':diff<0?'Manager score '+Math.abs(diff).toFixed(2)+' higher':'Identical';
+  var catH='';
+  for(var ci=0;ci<CATS.length;ci++){
+    var cat=CATS[ci],mcs=catSc2(ma.scores,cat),scs=catSc2(sa.scores,cat),rows='';
+    for(var ii=0;ii<cat.items.length;ii++){var item=cat.items[ii],k=cat.id+'_'+item,mv=ma.scores[k],sv=sa.scores[k];rows+='<div class="cc"><div class="cc-n">'+item+'</div><div class="cc-s '+(mv!==undefined?'c'+mv:'')+'">'+(mv!==undefined?'<span class="dot d'+mv+'"></span>'+mv:'&mdash;')+'</div><div class="cc-s '+(sv!==undefined?'c'+sv:'')+'">'+(sv!==undefined?'<span class="dot d'+sv+'"></span>'+sv:'&mdash;')+'</div></div>';}
+    catH+='<div class="cb"><div class="cb-h"><div class="cb-t">'+cat.name+' <span style="color:#555;font-size:12px">'+cat.pct+'</span></div><div class="cb-sc"><div class="cb-sv"><span class="cb-sl">MGR</span><span class="c'+Math.round(mcs)+'">'+mcs.toFixed(2)+'</span></div><div class="cb-sv"><span class="cb-sl">SELF</span><span class="c'+Math.round(scs)+'">'+scs.toFixed(2)+'</span></div></div></div><div style="padding:5px 20px;background:#0f0f0f;border-bottom:1px solid #1a1a1a;display:grid;grid-template-columns:1fr 90px 90px;font-size:10px;color:#444;letter-spacing:1px"><span>CRITERION</span><span style="text-align:center">MANAGER</span><span style="text-align:center">SELF</span></div>'+rows+'</div>';
+  }
+  var cmH=(ma.comments||sa.comments)?'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">'+(ma.comments?'<div class="cmmt"><label>MANAGER COMMENTS</label><div style="font-size:13px;color:#bbb;line-height:1.7">'+ma.comments+'</div></div>':'')+(sa.comments?'<div class="cmmt"><label>EMPLOYEE COMMENTS</label><div style="font-size:13px;color:#bbb;line-height:1.7">'+sa.comments+'</div></div>':'')+'</div>':'';
+  area.innerHTML='<div class="rw"><div class="hero"><div class="h-name">'+e.name+'</div><div class="h-dept">'+[e.pos,e.dept].filter(Boolean).join(' · ')+'</div><div class="sc2"><div class="sc2-col"><div class="sc2-lbl">YOUR EVALUATION</div><div class="sc2-val" style="color:'+mc+'">'+ms.toFixed(2)+'</div><div class="sc2-max">/ 5.00</div><div class="sc2-rate rb'+Math.min(mr,5)+'">'+(SL[mr]||'')+'</div></div><div class="sc2-col"><div class="sc2-lbl">EMPLOYEE SELF</div><div class="sc2-val" style="color:'+sc2+'">'+ss.toFixed(2)+'</div><div class="sc2-max">/ 5.00</div><div class="sc2-rate rb'+Math.min(sr,5)+'">'+(SL[sr]||'')+'</div></div></div><div style="text-align:center;margin-top:14px;font-size:13px;color:'+dc+';font-weight:bold">'+dl+'</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;margin-bottom:11px;padding:0 2px">DETAILED COMPARISON</div>'+catH+cmH+'</div>';
+}
+
+// SCORECARD
+function renderScorecard(){
+  var area=document.getElementById('sc-content');
+  var emps=DB.employees.filter(function(e){return e.ma&&e.ma.status==='submitted';});
+  if(!emps.length){area.innerHTML='<div class="pend-msg"><div class="pm-ic">&#128202;</div><p>No submitted appraisals yet.</p></div>';return;}
+  var h='<div style="font-size:21px;font-weight:bold;margin-bottom:3px">Department Evaluation Scorecard</div><div style="font-size:13px;color:#555;margin-bottom:20px">Scale 0&ndash;5 &bull; Manager: '+DB.mgr+'</div><div style="overflow-x:auto"><table class="sc-tbl">';
+  h+='<tr><th class="tl">Criteria</th><th>Weight</th>';
+  for(var ei=0;ei<emps.length;ei++) h+='<th class="te" colspan="2">'+emps[ei].name+'</th>';
+  h+='<th colspan="2">Dept. Total</th></tr>';
+  h+='<tr><th></th><th></th>';
+  for(var ei=0;ei<emps.length;ei++) h+='<th>Scale</th><th>Score</th>';
+  h+='<th>Scale</th><th>Score</th></tr>';
+  for(var ci=0;ci<CATS.length;ci++){
+    var cat=CATS[ci],iw=(cat.w/cat.items.length);
+    h+='<tr class="rcat"><td class="tl" colspan="'+(2+emps.length*2+2)+'">'+cat.name+' ('+cat.pct+')</td></tr>';
+    for(var ii=0;ii<cat.items.length;ii++){
+      var item=cat.items[ii];h+='<tr><td class="tl">'+item+'</td><td class="tw">'+iw.toFixed(2)+'</td>';
+      var tot=0,cnt=0;
+      for(var ei=0;ei<emps.length;ei++){var sc=emps[ei].ma.scores[cat.id+'_'+item];if(sc!==undefined){h+='<td class="c'+sc+'">'+sc+'</td><td style="color:#aaa">'+(sc*iw).toFixed(2)+'</td>';tot+=sc;cnt++;}else h+='<td>&mdash;</td><td>&mdash;</td>';}
+      var avg=cnt?Math.round(tot/cnt):0;h+='<td class="'+(cnt?'c'+avg:'')+'">'+(cnt?avg:'&mdash;')+'</td><td style="color:#aaa">'+(cnt?(tot/cnt*iw).toFixed(2):'&mdash;')+'</td></tr>';
+    }
+    h+='<tr class="rsub"><td class="tl"></td><td class="tw">'+cat.w.toFixed(2)+'</td>';
+    var dTot=0,dCnt=0;
+    for(var ei=0;ei<emps.length;ei++){var ecs=catSc2(emps[ei].ma.scores,cat),er=Math.round(ecs);h+='<td class="c'+er+'">'+er+'</td><td style="color:#fff">'+(ecs*cat.w).toFixed(2)+'</td>';dTot+=ecs;dCnt++;}
+    var da=dCnt?dTot/dCnt:0;h+='<td class="c'+Math.min(Math.round(da),5)+'">'+(dCnt?Math.round(da):'&mdash;')+'</td><td style="color:#fff">'+(da*cat.w).toFixed(2)+'</td></tr>';
+  }
+  h+='<tr class="rtot"><td class="tl">Total Evaluation</td><td style="color:#7a9fff">1.00</td>';
+  var best=null,bestSc=-1;
+  for(var ei=0;ei<emps.length;ei++){var t=emps[ei].ma.total,tr2=Math.round(t);h+='<td class="c'+Math.min(tr2,5)+'">'+tr2+'</td><td style="color:#fff">'+t.toFixed(2)+'</td>';if(t>bestSc){bestSc=t;best=emps[ei];}}
+  var dAvg=emps.reduce(function(a,e){return a+e.ma.total;},0)/emps.length;
+  h+='<td class="c'+Math.min(Math.round(dAvg),5)+'">'+Math.round(dAvg)+'</td><td style="color:#fff">'+dAvg.toFixed(2)+'</td></tr></table></div>';
+  if(best){var bsr=Math.round(bestSc);h+='<div class="aw-box"><div style="font-size:30px">&#127942;</div><div><div class="aw-lbl">HIGHEST PERFORMER</div><div class="aw-name">'+best.name+'</div><div style="font-size:12px;color:#666;margin-top:2px">'+(best.pos||'')+(best.dept?' · '+best.dept:'')+'</div></div><div style="border-left:1px solid #2a2a2a;padding-left:20px"><div class="aw-lbl">SCORE</div><div style="font-size:28px;font-weight:bold" class="c'+Math.min(bsr,5)+'">'+bestSc.toFixed(2)+'</div><div style="font-size:12px;color:#555;margin-top:2px">'+(SL[bsr]||'')+'</div></div></div>';}
+  h+='</div>';
+  area.innerHTML=h;
+}
+
+// INIT
+try{var loc=JSON.parse(localStorage.getItem('lksa_pa')||'{}');if(loc.employees)DB.employees=loc.employees;}catch(x){}
+</script>
+</body>
+</html>
